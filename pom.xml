@@ -21,10 +21,34 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
+		<jetty.context>/</jetty.context>
+		<jetty.http.port>9088</jetty.http.port>
+		<jetty.https.port>9443</jetty.https.port>
+		<jetty.stopPort>10080</jetty.stopPort>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.4</version>
+		</dependency>
+
+
+
+
+
+
+
+
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -43,7 +67,24 @@
 	</dependencies>
 
 	<build>
+
 		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.18.v20160721</version>
+				<configuration>
+					<webApp>
+						<contextPath>${jetty.context}</contextPath>
+					</webApp>
+					<httpConnector>
+						<port>${jetty.http.port}</port>
+					</httpConnector>
+					<stopKey>jetty</stopKey>
+					<stopPort>${jetty.stopPort}</stopPort>
+					<!--<scanIntervalSeconds>2</scanIntervalSeconds>-->
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
