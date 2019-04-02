@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
  */
 public enum ErrorCode {
 
-    BAD_REQUEST(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "无效请求");
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "无效请求"),
+    DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, "DATA_NOT_FOUND", "数据不存在");
 
     private HttpStatus httpStatus;
 

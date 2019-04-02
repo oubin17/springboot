@@ -1,6 +1,8 @@
 package com.ob.common;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -10,15 +12,40 @@ import java.util.Optional;
  * @date: 2019/3/27 15:36
  * @Description:
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Items<T> {
 
-    private Collection<T> items;
+    @SuppressWarnings("unchecked")
+    private static final Items EMPTY_ITEM = of(Collections.EMPTY_LIST) ;
 
-    public static <T> Items<T> of(Collection<T> list) {
+    private Collection<T> items = Collections.emptyList();
+
+    private Long count;
+
+    public static <T> Items<T> of(Collection<T> collection) {
         Items<T> items = new Items<>();
-        Optional<Collection<T>> optionalTS = Optional.ofNullable(list);
-        items.setItems(optionalTS.orElseGet(Collections::emptyList));
+        items.items = collection;
+        items.count = (long) collection.size();
         return items;
+    }
+
+    public static <T> Items<T> of(Collection<T> collection, long count) {
+        Items<T> items = of(collection);
+        items.count = count;
+        return items;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Items<T> empty() {
+        return (Items<T>) EMPTY_ITEM;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
 
     public Collection<T> getItems() {

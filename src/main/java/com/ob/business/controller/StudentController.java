@@ -1,10 +1,13 @@
 package com.ob.business.controller;
 
+import com.google.common.collect.Lists;
 import com.ob.business.domain.Student;
 import com.ob.business.service.StudentService;
+import com.ob.common.Items;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author: oubin
@@ -27,6 +30,18 @@ public class StudentController {
     public Student get(@PathVariable(name = "id") String id) {
         return studentService.get(id);
 
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public Items<Student> test() {
+        List<Student> list = Lists.newArrayList();
+        Student student = new Student();
+        Student student1 = new Student();
+        student.setName("a");
+        student1.setName("b");
+        list.add(student);
+        list.add(student1);
+        return Items.of(list);
     }
 
 }
