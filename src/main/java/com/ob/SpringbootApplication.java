@@ -1,5 +1,7 @@
 package com.ob;
 
+import com.ob.base.repository.CustomJpaRepositoryImpl;
+import com.ob.base.repository.CustomMongoRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,9 +19,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @EnableTransactionManagement
 @ComponentScan("com")
-@EnableJpaRepositories(basePackages = "com")
+@EnableJpaRepositories(basePackages = "com", repositoryBaseClass = CustomJpaRepositoryImpl.class)
 @EnableJpaAuditing
-@EnableMongoRepositories(basePackages = "com")
+@EnableMongoRepositories(basePackages = "com", repositoryBaseClass = CustomMongoRepositoryImpl.class)
 @EnableMongoAuditing
 @SpringBootApplication
 public class SpringbootApplication {

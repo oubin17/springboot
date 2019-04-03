@@ -1,10 +1,12 @@
 package com.ob.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.util.TimeZone;
  * @date: 2019/4/2 15:57
  * @Description:
  */
+@Slf4j
 public class JsonUtil {
 
     private JsonUtil() {
@@ -37,18 +40,42 @@ public class JsonUtil {
     /**
      * json转对象
      *
-     * @param jsonString
-     * @param objectType
+     * @param json
+     * @param clazz
      * @param <T>
      * @return
-     * @throws IOException
      */
-    public static <T> T parse(String jsonString, Class<T> objectType) throws IOException {
-        if (null == jsonString) {
+    public static <T> T jsonToBean(String json, Class<T> clazz) {
+        if (null == json) {
             return null;
         }
-        Assert.notNull(objectType, "objectType not be null");
-        return mapper.readValue(jsonString, objectType);
+        Assert.notNull(clazz, "clazz not be null");
+        try {
+            return mapper.readValue(json, clazz);
+        } catch (IOException e) {
+            log.error("json to bean error: " + json, e);
+            return null;
+        }
+    }
+
+    /**
+     * json转对象
+     *
+     * @param json
+     * @param tTypeReference
+     * @param <T>
+     * @return
+     */
+    public static <T> T jsonToBean(String json, TypeReference<T> tTypeReference) {
+        if (null == json) {
+            return null;
+        }
+        try {
+            return mapper.readValue(json, tTypeReference);
+        } catch (IOException e) {
+            log.error("json to bean error: " + json, e);
+            return null;
+        }
     }
 
     /**
@@ -56,10 +83,14 @@ public class JsonUtil {
      *
      * @param object
      * @return
-     * @throws JsonProcessingException
      */
-    public static String toJson(Object object) throws JsonProcessingException {
-        return mapper.writeValueAsString(object);
+    public static String toJson(Object object) {
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            log.error("object to json error: " + object, e);
+            return null;
+        }
     }
 
     public static ObjectMapper getMapper() {

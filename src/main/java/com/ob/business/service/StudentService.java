@@ -1,5 +1,6 @@
 package com.ob.business.service;
 
+import com.ob.base.service.CustomService;
 import com.ob.business.domain.Student;
 import com.ob.business.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @Description:
  */
 @Service
-public class StudentService {
+public class StudentService extends CustomService<Student, String> {
 
     private final StudentRepository studentRepository;
 
@@ -27,6 +28,7 @@ public class StudentService {
     }
 
     public Student get(String id) {
-        return studentRepository.findById(id);
+        return super.strictFind(id);
+
     }
 }
