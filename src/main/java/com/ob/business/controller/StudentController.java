@@ -1,13 +1,10 @@
 package com.ob.business.controller;
 
-import com.google.common.collect.Lists;
 import com.ob.business.domain.Student;
 import com.ob.business.service.StudentService;
-import com.ob.common.Items;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  * @author: oubin
@@ -18,8 +15,12 @@ import java.util.List;
 @RequestMapping(value = "/v0.1/student")
 public class StudentController {
 
+    private final StudentService studentService;
+
     @Autowired
-    private StudentService studentService;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestParam(name = "name") String name) {
@@ -30,18 +31,6 @@ public class StudentController {
     public Student get(@PathVariable(name = "id") String id) {
         return studentService.get(id);
 
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public Items<Student> test() {
-        List<Student> list = Lists.newArrayList();
-        Student student = new Student();
-        Student student1 = new Student();
-        student.setName("a");
-        student1.setName("b");
-        list.add(student);
-        list.add(student1);
-        return Items.of(list);
     }
 
 }
