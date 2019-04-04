@@ -24,7 +24,9 @@ public class StudentController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestParam(name = "name") String name) {
-        studentService.save(name);
+        Student student = new Student();
+        student.setName(name);
+        studentService.save(student);
 
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

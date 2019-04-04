@@ -27,9 +27,7 @@ public class StudentService extends CustomService<Student, String> {
     }
 
     @CachePut(value = "student", key = "#student.id")
-    public Student save(String name) {
-        Student student = new Student();
-        student.setName(name);
+    public Student save(Student student) {
         return studentRepository.save(student);
     }
 
@@ -38,9 +36,8 @@ public class StudentService extends CustomService<Student, String> {
         studentRepository.delete(id);
     }
 
-    @Cacheable(value = "student", key = "#student.id")
+    @Cacheable(value = "student", key = "#id")
     public Student get(String id) {
         return super.strictFind(id);
-
     }
 }
