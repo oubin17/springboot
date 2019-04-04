@@ -30,7 +30,11 @@ public class StudentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Student get(@PathVariable(name = "id") String id) {
         return studentService.get(id);
+    }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void remove(@PathVariable(name = "id") String id) {
+        studentService.remove(id);
     }
 
 }
