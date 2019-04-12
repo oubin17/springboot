@@ -39,4 +39,9 @@ public class StudentController {
         studentService.remove(id);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public void update(@PathVariable("id") String id) {
+        studentService.update(id);
+    }
+
 }

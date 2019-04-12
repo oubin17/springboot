@@ -40,4 +40,9 @@ public class StudentService extends CustomService<Student, String> {
     public Student get(String id) {
         return super.strictFind(id);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void update(String id) {
+        studentRepository.setCount(id);
+    }
 }
