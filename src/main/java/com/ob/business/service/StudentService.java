@@ -52,4 +52,10 @@ public class StudentService extends CustomService<Student, String> {
     public void update(String id) {
         studentRepository.setCount(id);
     }
+
+    public void updateWithVersion(String id) {
+        Student student = super.strictFind(id);
+        student.setCountStudent(student.getCountStudent() + 1);
+        studentRepository.save(student);
+    }
 }

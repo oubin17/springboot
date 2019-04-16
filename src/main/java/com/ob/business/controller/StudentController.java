@@ -55,4 +55,9 @@ public class StudentController {
         studentService.update(id);
     }
 
+    @RequestMapping(value = "/version/{id}", method = RequestMethod.PUT)
+    public void updateWithVersion(@PathVariable("id") String id) {
+        studentService.updateWithVersion(id);
+    }
+
 }
