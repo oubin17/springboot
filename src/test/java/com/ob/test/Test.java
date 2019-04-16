@@ -1,4 +1,4 @@
-package com.ob.springboot;
+package com.ob.test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Lists;

@@ -1,6 +1,7 @@
 package com.ob.business.controller;
 
 import com.ob.business.domain.Student;
+import com.ob.business.dto.StudentDto;
 import com.ob.business.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,16 @@ public class StudentController {
         studentService.remove(id);
     }
 
+    @RequestMapping(value = "/actions/update/{id}", method = RequestMethod.PUT)
+    public void updateName(@PathVariable("id") String id,
+                           @RequestBody StudentDto dto) {
+        studentService.updateName(id, dto);
+    }
+
+    /**
+     * 并发测试
+     * @param id
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable("id") String id) {
         studentService.update(id);
