@@ -25,4 +25,8 @@ public class Student extends BaseDomain<String> {
 
     @Column(name = "count_student")
     private int countStudent;
+
+    @Version
+    @Column(name = "version")
+    private int version;
 }
