@@ -4,11 +4,14 @@ import com.ob.base.service.CustomService;
 import com.ob.business.domain.Student;
 import com.ob.business.dto.StudentDto;
 import com.ob.business.repository.StudentRepository;
+import com.ob.business.utils.AsyncUtils;
 import com.ob.common.ExceptionMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @Description:
  */
 @Service
+@Slf4j
 public class StudentService extends CustomService<Student, String> {
 
     private final StudentRepository studentRepository;
+
+    @Autowired
+    private AsyncUtils asyncUtils;
 
     @Autowired
     public StudentService(StudentRepository studentRepository) {
@@ -37,10 +44,14 @@ public class StudentService extends CustomService<Student, String> {
         studentRepository.delete(id);
     }
 
-    @Cacheable(value = "student", key = "#id")
+    @Transactional(rollbackFor = Exception.class)
+//    @Cacheable(value = "student", key = "#id")
     public Student get(String id) {
+        asyncUtils.asyncFunc();
+        log.info("调用线程继续执行");
         return super.strictFind(id);
     }
+
 
     public Student updateName(String id, StudentDto dto) {
         Student student = super.strictFind(id);

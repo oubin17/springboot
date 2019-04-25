@@ -2,7 +2,9 @@ package com.ob.business.controller;
 
 import com.google.common.collect.Lists;
 import com.ob.business.domain.Student;
+import com.ob.business.service.HelloService;
 import com.ob.common.Items;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +24,9 @@ public class HelloController {
     @Value("${author.id}")
     private String authorId;
 
+    @Autowired
+    private HelloService helloService;
+
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String index() {
         return "Hello World" + authorId;
@@ -37,5 +42,10 @@ public class HelloController {
         list.add(student);
         list.add(student1);
         return Items.of(list);
+    }
+
+    @RequestMapping(value = "/proxy", method = RequestMethod.GET)
+    public void proxyTest() {
+        helloService.proxyText();
     }
 }
