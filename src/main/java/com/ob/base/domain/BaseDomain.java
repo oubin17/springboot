@@ -47,7 +47,7 @@ public abstract class BaseDomain<I extends Serializable> {
     @JsonProperty("last_modified_at")
     @LastModifiedDate
     @Column(nullable = false, columnDefinition = "timestamp not null")
-    private Date lastModefiedAt;
+    private Date lastModifiedAt;
 
     /**
      * 修改人
@@ -80,12 +80,12 @@ public abstract class BaseDomain<I extends Serializable> {
         this.createdBy = createdBy;
     }
 
-    public Date getLastModefiedAt() {
-        return lastModefiedAt;
+    public Date getLastModifiedAt() {
+        return lastModifiedAt;
     }
 
-    public void setLastModefiedAt(Date lastModefiedAt) {
-        this.lastModefiedAt = lastModefiedAt;
+    public void setLastModifiedAt(Date lastModifiedAt) {
+        this.lastModifiedAt = lastModifiedAt;
     }
 
     public String getLastModifiedBy() {
