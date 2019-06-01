@@ -1,6 +1,6 @@
-package com.ob.base.repository;
+package com.ob.common.base.repository;
 
-import com.ob.base.domain.BaseDomain;
+import com.ob.common.base.domain.BaseDomain;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 

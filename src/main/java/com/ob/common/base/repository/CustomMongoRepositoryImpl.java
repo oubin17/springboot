@@ -1,6 +1,6 @@
-package com.ob.base.repository;
+package com.ob.common.base.repository;
 
-import com.ob.base.domain.BaseDomain;
+import com.ob.common.base.domain.BaseDomain;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;

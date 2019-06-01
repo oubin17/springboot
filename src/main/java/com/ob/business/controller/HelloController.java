@@ -3,7 +3,7 @@ package com.ob.business.controller;
 import com.google.common.collect.Lists;
 import com.ob.business.domain.Student;
 import com.ob.business.service.HelloService;
-import com.ob.common.Items;
+import com.ob.common.response.Items;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,15 +1,13 @@
-package com.ob.base.domain;
+package com.ob.common.base.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author: oubin
@@ -17,7 +15,7 @@ import java.util.Date;
  * @Description:
  */
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(BaseDomainListener.class)
 public abstract class BaseDomain<I extends Serializable> {
 
     @Id
@@ -31,7 +29,7 @@ public abstract class BaseDomain<I extends Serializable> {
     @JsonProperty("create_at")
     @CreatedDate
     @Column(updatable = false, nullable = false, columnDefinition = "timestamp not null")
-    private Date createdAt;
+    private Long createdAt;
 
     /**
      * 创建人
@@ -47,7 +45,7 @@ public abstract class BaseDomain<I extends Serializable> {
     @JsonProperty("last_modified_at")
     @LastModifiedDate
     @Column(nullable = false, columnDefinition = "timestamp not null")
-    private Date lastModifiedAt;
+    private Long lastModifiedAt;
 
     /**
      * 修改人
@@ -64,11 +62,11 @@ public abstract class BaseDomain<I extends Serializable> {
         this.id = id;
     }
 
-    public Date getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -80,11 +78,11 @@ public abstract class BaseDomain<I extends Serializable> {
         this.createdBy = createdBy;
     }
 
-    public Date getLastModifiedAt() {
+    public Long getLastModifiedAt() {
         return lastModifiedAt;
     }
 
-    public void setLastModifiedAt(Date lastModifiedAt) {
+    public void setLastModifiedAt(Long lastModifiedAt) {
         this.lastModifiedAt = lastModifiedAt;
     }
 

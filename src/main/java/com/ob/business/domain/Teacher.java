@@ -1,6 +1,6 @@
 package com.ob.business.domain;
 
-import com.ob.base.domain.BaseDomain;
+import com.ob.common.base.domain.BaseDomain;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
