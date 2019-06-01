@@ -1,4 +1,4 @@
-package com.ob.common;
+package com.ob.common.exception;
 
 import org.springframework.http.HttpStatus;
 

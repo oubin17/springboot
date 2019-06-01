@@ -1,6 +1,6 @@
 package com.ob.business.repository;
 
-import com.ob.base.repository.CustomRepository;
+import com.ob.common.base.repository.CustomRepository;
 import com.ob.business.domain.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

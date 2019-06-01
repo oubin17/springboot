@@ -1,7 +1,7 @@
 package com.ob.business.domain;
 
-import com.ob.base.domain.BaseDomain;
-import com.ob.base.domain.IdStrategy;
+import com.ob.common.base.domain.BaseDomain;
+import com.ob.common.base.domain.IdStrategy;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;

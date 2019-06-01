@@ -1,4 +1,4 @@
-package com.ob.util;
+package com.ob.common.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

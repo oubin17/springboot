@@ -1,6 +1,5 @@
-package com.ob.common;
+package com.ob.common.exception;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.http.ResponseEntity;
 
 /**

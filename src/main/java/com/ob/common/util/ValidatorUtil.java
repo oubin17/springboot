@@ -1,7 +1,7 @@
-package com.ob.util;
+package com.ob.common.util;
 
-import com.ob.common.BizException;
-import com.ob.common.ErrorCode;
+import com.ob.common.exception.BizException;
+import com.ob.common.exception.ErrorCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 

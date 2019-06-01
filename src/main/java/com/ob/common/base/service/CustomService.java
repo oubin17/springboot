@@ -1,9 +1,9 @@
-package com.ob.base.service;
+package com.ob.common.base.service;
 
-import com.ob.base.domain.BaseDomain;
-import com.ob.base.repository.CustomRepository;
-import com.ob.common.BizException;
-import com.ob.common.ErrorCode;
+import com.ob.common.base.domain.BaseDomain;
+import com.ob.common.base.repository.CustomRepository;
+import com.ob.common.exception.BizException;
+import com.ob.common.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;

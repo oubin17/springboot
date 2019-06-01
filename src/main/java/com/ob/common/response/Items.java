@@ -1,11 +1,10 @@
-package com.ob.common;
+package com.ob.common.response;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 
 /**
  * @author: oubin
