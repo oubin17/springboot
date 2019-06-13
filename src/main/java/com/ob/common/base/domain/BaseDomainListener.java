@@ -20,9 +20,9 @@ public class BaseDomainListener {
      */
     @PrePersist
     public void prePersist(BaseDomain baseDomain) {
-        baseDomain.setCreatedAt(System.currentTimeMillis());
-        baseDomain.setCreatedBy("oubin");
-        baseDomain.setLastModifiedAt(System.currentTimeMillis());
+        baseDomain.setCreateTime(System.currentTimeMillis());
+        baseDomain.setCreateBy("oubin");
+        baseDomain.setLastModifiedTime(System.currentTimeMillis());
         baseDomain.setLastModifiedBy("oubin");
 
     }
@@ -34,7 +34,7 @@ public class BaseDomainListener {
      */
     @PreUpdate
     public void preUpdate(BaseDomain baseDomain) {
-        baseDomain.setLastModifiedAt(System.currentTimeMillis());
+        baseDomain.setLastModifiedTime(System.currentTimeMillis());
         baseDomain.setLastModifiedBy("oubin");
     }
 }
