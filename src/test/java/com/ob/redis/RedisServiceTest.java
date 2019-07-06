@@ -1,7 +1,7 @@
-package com.ob.business.service;
+package com.ob.redis;
 
 import com.ob.SpringbootApplication;
-import com.ob.business.domain.Student;
+import com.ob.redis.service.RedisService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,20 +11,21 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
  * @Author: oubin
- * @Date: 2019/4/16 09:04
+ * @Date: 2019/7/6 09:48
  * @Description:
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringbootApplication.class)
 @WebAppConfiguration
-public class StudentServiceTest {
+public class RedisServiceTest {
 
     @Autowired
-    private StudentService studentService;
+    private RedisService redisService;
 
     @Test
-    public void test004() {
-        Student student = studentService.get("2a690955-d584-4459-b2ba-c60148a53323");
-        System.out.println(student.getCountStudent());
+    public void test001() {
+        String key = "redis test";
+        redisService.setKeyToRedis(key);
+        System.out.println(redisService.getKeyFromRedis(key));
     }
 }
