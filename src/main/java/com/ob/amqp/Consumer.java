@@ -17,6 +17,6 @@ public class Consumer {
 
     @RabbitHandler
     public void process(String message) {
-        log.info("收到的消息为: {}" + message);
+        log.info("收到的消息为: {}", message);
     }
 }

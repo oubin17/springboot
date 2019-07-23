@@ -32,7 +32,9 @@ public final class ValidatorUtil {
 
     public static <T> String validate(T t, Class<?>... groups) {
         Set<ConstraintViolation<T>> constraintViolations = getValidator().validate(t, groups);
-        return constraintViolations.stream().map(e -> StringUtils.defaultString(e.getMessage())).collect(Collectors.joining(","));
+        return constraintViolations.stream()
+                .map(e -> StringUtils.defaultString(e.getMessage()))
+                .collect(Collectors.joining(","));
     }
 
     private static Validator getValidator() {

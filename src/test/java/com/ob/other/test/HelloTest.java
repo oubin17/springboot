@@ -1,4 +1,4 @@
-package com.ob.test;
+package com.ob.other.test;
 
 import com.ob.business.controller.HelloController;
 import org.junit.Before;

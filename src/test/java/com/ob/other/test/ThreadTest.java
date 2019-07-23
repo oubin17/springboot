@@ -1,4 +1,4 @@
-package com.ob.test;
+package com.ob.other.test;
 
 import java.util.ArrayList;
 import java.util.Date;
