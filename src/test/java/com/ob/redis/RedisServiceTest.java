@@ -1,13 +1,16 @@
 package com.ob.redis;
 
 import com.ob.SpringbootApplication;
-import com.ob.redis.service.RedisService;
+import com.ob.business.domain.Student;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: oubin
@@ -19,13 +22,17 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 public class RedisServiceTest {
 
-    @Autowired
-    private RedisService redisService;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Test
     public void test001() {
-        String key = "redis test";
-        redisService.setKeyToRedis(key);
-        System.out.println(redisService.getKeyFromRedis(key));
+        Student student = new Student();
+        student.setName("ob");
+        student.setCountStudent(100);
+        String key = "stuName";
+        redisTemplate.opsForValue().set(key, student, 10, TimeUnit.SECONDS);
+        Student studentRedis = (Student) redisTemplate.opsForValue().get(key);
+        System.out.println(studentRedis.getName());
     }
 }

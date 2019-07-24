@@ -13,17 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/v0.1/redis")
 public class RedisController {
 
+    private final RedisService redisService;
+
     @Autowired
-    private RedisService redisService;
+    public RedisController(RedisService redisService) {
+        this.redisService = redisService;
+    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public void seckill() {
         redisService.seckill();
-    }
-
-    @RequestMapping(value = "/key/{key}", method = RequestMethod.GET)
-    public String getKey(@PathVariable(value = "key") String key) {
-        return redisService.getKeyFromRedis(key);
     }
 
 }

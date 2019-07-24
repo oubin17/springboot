@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class AsyncUtils {
 
-    @Async
+    @Async("taskExecutor")
     public void asyncFunc() {
         try {
             Thread.sleep(2000);
