@@ -3,6 +3,7 @@ package com.ob.common.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.extern.slf4j.Slf4j;
@@ -73,6 +74,28 @@ public class JsonUtil {
             return mapper.readValue(json, tTypeReference);
         } catch (IOException e) {
             log.error("json to bean error: " + json, e);
+            return null;
+        }
+    }
+
+    /**
+     * json转JsonNode : JsonNode具有JSONArray和JsonObject的特点
+     * if (mapper.readTree(json).isArray()) {
+     *                 mapper.readTree(json).get(0);
+     *             }
+     *
+     * @param json
+     * @return
+     */
+    public static JsonNode jsonToNode(String json) {
+        if (null == json) {
+            return null;
+        }
+        try {
+            return mapper.readTree(json);
+        } catch (IOException e) {
+            log.error("json to node error: " + json, e);
+            e.printStackTrace();
             return null;
         }
     }

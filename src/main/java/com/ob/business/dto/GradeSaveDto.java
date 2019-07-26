@@ -1,5 +1,6 @@
 package com.ob.business.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 
@@ -20,4 +21,7 @@ public class GradeSaveDto {
      * 年级名称
      */
     private String name;
+
+    @JsonProperty("id_gene")
+    private String idGene;
 }
