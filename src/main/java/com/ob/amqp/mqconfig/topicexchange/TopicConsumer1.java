@@ -1,4 +1,4 @@
-package com.ob.amqp;
+package com.ob.amqp.mqconfig.topicexchange;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component;
 
 /**
  * @Author: oubin
- * @Date: 2019/6/1 14:00
+ * @Date: 2019/8/13 11:35
  * @Description:
  */
 @Slf4j
-@RabbitListener(queues = "oqueue")
 @Component
-public class Consumer {
+@RabbitListener(queues = "q_topic_message")
+public class TopicConsumer1 {
 
     @RabbitHandler
-    public void process(String message) {
-        log.info("收到的消息为: {}", message);
+    public void process(String msg) {
+        log.info("topic_consumer1 : {}", msg);
     }
 }

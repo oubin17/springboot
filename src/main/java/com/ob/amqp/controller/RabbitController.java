@@ -1,6 +1,6 @@
-package com.ob.amqp;
+package com.ob.amqp.controller;
 
-import org.springframework.amqp.core.AmqpTemplate;
+import com.ob.amqp.service.RabbitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class RabbitController {
 
     @Autowired
-    private AmqpTemplate rabbitmqTemplate;
+    private RabbitService rabbitService;
 
     @RequestMapping(value = "/{message}", method = RequestMethod.GET)
     public void send(@PathVariable(value = "message") String message) {
-        rabbitmqTemplate.convertAndSend("oqueue", message);
+        rabbitService.simpleQueue(message);
+    }
+
+    @RequestMapping(value = "/topic/{message}", method = RequestMethod.GET)
+    public void topicSend(@PathVariable(value = "message") String message) {
+        rabbitService.topicQueue1(message);
+
     }
 }

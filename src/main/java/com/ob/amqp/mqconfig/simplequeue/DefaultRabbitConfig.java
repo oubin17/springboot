@@ -1,4 +1,4 @@
-package com.ob.amqp;
+package com.ob.amqp.mqconfig.simplequeue;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
  * @Description:
  */
 @Configuration
-public class RabbitConfig {
+public class DefaultRabbitConfig {
 
     @Bean
     public Queue generateQueue() {
-        return new Queue("oqueue");
+        return new Queue("o_queue");
     }
 }
