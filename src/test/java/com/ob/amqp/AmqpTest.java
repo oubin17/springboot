@@ -38,4 +38,19 @@ public class AmqpTest {
         rabbitService.fanoutQueue("fanout msg!!!");
     }
 
+    @Test
+    public void test004() {
+        rabbitService.directQueue1("direct_A_B");
+    }
+
+    @Test
+    public void test005() {
+        rabbitService.directQueue2("direct_C");
+    }
+
+    @Test
+    public void test006() {
+        rabbitService.delayQueue("延迟队列中的消息");
+    }
+
 }
