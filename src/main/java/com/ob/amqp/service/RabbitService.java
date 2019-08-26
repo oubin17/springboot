@@ -2,6 +2,7 @@ package com.ob.amqp.service;
 
 import com.ob.amqp.mqconfig.delayqueue.DeadLetterExchangeConfig;
 import com.ob.amqp.mqconfig.delayqueue.ExpirationMessagePostProcessor;
+import com.ob.amqp.mqconfig.directexchange.DirectRabbitConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +56,11 @@ public class RabbitService {
      * @param message
      */
     public void directQueue1(String message) {
-        rabbitmqTemplate.convertAndSend("direct_exchange", "direct_exchange", message);
+        rabbitmqTemplate.convertAndSend(DirectRabbitConfig.DIRECT_EXCHANGE, DirectRabbitConfig.DIRECT_EXCHANGE_ROUTING_KEY_ONE, message);
     }
 
     public void directQueue2(String message) {
-        rabbitmqTemplate.convertAndSend("direct_exchange", "direct_exchange_no", message);
+        rabbitmqTemplate.convertAndSend(DirectRabbitConfig.DIRECT_EXCHANGE, DirectRabbitConfig.DIRECT_EXCHANGE_ROUTING_KEY_TWO, message);
     }
 
     public void delayQueue(String message) {

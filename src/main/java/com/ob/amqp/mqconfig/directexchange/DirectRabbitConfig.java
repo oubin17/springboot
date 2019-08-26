@@ -15,6 +15,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DirectRabbitConfig {
 
+    public static final String DIRECT_EXCHANGE = "direct_exchange";
+
+    public static final String DIRECT_EXCHANGE_ROUTING_KEY_ONE = "direct:exchange:routing_key:one";
+
+    public static final String DIRECT_EXCHANGE_ROUTING_KEY_TWO = "direct:exchange:routing_key:two";
+
     @Bean
     public Queue directQueue1() {
         return new Queue("q_direct_A");
@@ -32,21 +38,21 @@ public class DirectRabbitConfig {
 
     @Bean
     public DirectExchange directExchange() {
-        return new DirectExchange("direct_exchange");
+        return new DirectExchange(DIRECT_EXCHANGE);
     }
 
     @Bean
     public Binding bindingExchange1(Queue directQueue1, DirectExchange directExchange) {
-        return BindingBuilder.bind(directQueue1).to(directExchange).with("direct_exchange");
+        return BindingBuilder.bind(directQueue1).to(directExchange).with(DIRECT_EXCHANGE_ROUTING_KEY_ONE);
     }
 
     @Bean
     public Binding bindingExchange2(Queue directQueue2, DirectExchange directExchange) {
-        return BindingBuilder.bind(directQueue2).to(directExchange).with("direct_exchange");
+        return BindingBuilder.bind(directQueue2).to(directExchange).with(DIRECT_EXCHANGE_ROUTING_KEY_ONE);
     }
 
     @Bean
     public Binding bindingExchange3(Queue directQueue3, DirectExchange directExchange) {
-        return BindingBuilder.bind(directQueue3).to(directExchange).with("direct_exchange_no");
+        return BindingBuilder.bind(directQueue3).to(directExchange).with(DIRECT_EXCHANGE_ROUTING_KEY_TWO);
     }
 }

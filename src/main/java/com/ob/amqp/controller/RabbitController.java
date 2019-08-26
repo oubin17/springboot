@@ -1,5 +1,6 @@
 package com.ob.amqp.controller;
 
+import com.ob.amqp.service.RabbitConfirmService;
 import com.ob.amqp.service.RabbitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,9 @@ public class RabbitController {
     @Autowired
     private RabbitService rabbitService;
 
+    @Autowired
+    private RabbitConfirmService confirmService;
+
     @RequestMapping(value = "/{message}", method = RequestMethod.GET)
     public void send(@PathVariable(value = "message") String message) {
         rabbitService.simpleQueue(message);
@@ -27,6 +31,16 @@ public class RabbitController {
     @RequestMapping(value = "/topic/{message}", method = RequestMethod.GET)
     public void topicSend(@PathVariable(value = "message") String message) {
         rabbitService.topicQueue1(message);
+    }
 
+
+    /**
+     * 消息确认机制和消息路由不可达的return处理
+     *
+     * @param message
+     */
+    @RequestMapping(value = "/confirm/{message}", method = RequestMethod.GET)
+    public void msgConfirm(@PathVariable(value = "message") String message) {
+        confirmService.sendMsg(message);
     }
 }
