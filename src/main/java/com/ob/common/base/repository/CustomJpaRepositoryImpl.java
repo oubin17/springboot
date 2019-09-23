@@ -1,6 +1,8 @@
 package com.ob.common.base.repository;
 
 import com.ob.common.base.domain.BaseDomain;
+import com.ob.common.exception.BizException;
+import com.ob.common.exception.ErrorCode;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
@@ -30,7 +32,12 @@ public class CustomJpaRepositoryImpl<T extends BaseDomain<I>, I extends Serializ
 
 
     @Override
-    public void doSomething(I id) {
+    public T strictFind(I id) {
+        T t = findOne(id);
+        if (null == t) {
+            throw new BizException(ErrorCode.DATA_NOT_FOUND);
+        }
+        return t;
 
     }
 }

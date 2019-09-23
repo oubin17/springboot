@@ -28,7 +28,8 @@ public class CustomMongoRepositoryImpl<T extends BaseDomain<I>, I extends Serial
     }
 
     @Override
-    public void doSomething(I id) {
+    public T strictFind(I id) {
+        return null;
 
     }
 }
