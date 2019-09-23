@@ -1,6 +1,6 @@
 package com.ob.other.test;
 
-import com.ob.business.controller.HelloController;
+import com.ob.test.business.controller.HelloController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
