@@ -21,8 +21,8 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/create/goods/{goodsId}", method = RequestMethod.POST)
-    public Order createOrder(@PathVariable(value = "goodsId") String goodsId) {
+    @RequestMapping(value = "/create/goods/{goods_id}", method = RequestMethod.POST)
+    public Order createOrder(@PathVariable(value = "goods_id") String goodsId) {
         return orderService.createOrderWithRedisLock(goodsId);
     }
 

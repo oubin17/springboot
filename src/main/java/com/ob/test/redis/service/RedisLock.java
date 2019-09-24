@@ -51,7 +51,7 @@ public class RedisLock {
      * @param expireTime 过期时间
      * @return
      */
-    public boolean lock(String key, String value, long expireTime) {
+    boolean lock(String key, String value, long expireTime) {
         try (Jedis jedis = jedisPool.getResource()) {
             String result = jedis.set(key, value, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
             if (LOCK_SUCCESS.equals(result)) {

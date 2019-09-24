@@ -1,6 +1,9 @@
 package com.ob.work.trade.service;
 
+import com.ob.common.constant.Constants;
 import com.ob.common.context.RequestContext;
+import com.ob.common.exception.BizException;
+import com.ob.common.exception.ErrorCode;
 import com.ob.test.redis.service.RedisLock;
 import com.ob.work.trade.domain.Goods;
 import com.ob.work.trade.domain.Order;
@@ -41,40 +44,35 @@ public class OrderService {
      * @param goodsId
      * @return
      */
+    @SuppressWarnings("unchecked")
     @Transactional(rollbackFor = Exception.class)
     public Order createOrderWithRedisLock(String goodsId) {
-        Integer num = (Integer) valueOperations.get(goodsId);
+        Integer num = (Integer) valueOperations.get(Constants.GOODS_ID_KEY + goodsId);
         if (null != num && num <= 0) {
             return null;
         }
-        String key = "goods_id:" + goodsId;
+        String key = Constants.GOODS_ID_LOCK + goodsId;
         String value = UUID.randomUUID().toString();
         try {
             boolean lock = redisLock.lock(key, value);
             if (lock) {
                 Order order;
-                if (null == valueOperations.get(goodsId)) {
-                    Goods goods = goodsRepository.findFirstByIdAndRemainingQuantityGreaterThan(goodsId, 0);
+                if (null == valueOperations.get(Constants.GOODS_ID_KEY + goodsId)) {
+                    Goods goods = updateGoodsRemainingQuantity(goodsId);
                     if (null == goods) {
-                        valueOperations.set(goodsId, -1);
                         return null;
                     }
-                    goods.setRemainingQuantity(goods.getRemainingQuantity() - 1);
-                    goodsRepository.saveAndFlush(goods);
                     order = addGoodsOrder(goodsId);
-                    if (null != order) {
-                        valueOperations.set(goodsId, goods.getRemainingQuantity());
-                    }
+                    valueOperations.set(Constants.GOODS_ID_KEY + goodsId, goods.getRemainingQuantity());
                 } else {
-                    order = createOrder(goodsId);
-                    if (null != order) {
-                        valueOperations.increment(goodsId, -1);
-                    }
+                    order = createOrderWithSQL(goodsId);
+                    valueOperations.increment(Constants.GOODS_ID_KEY + goodsId, -1);
                 }
                 return order;
             }
         } catch (Exception e) {
             log.info("当前线程创建订单失败,商品ID:{}", goodsId);
+            throw new BizException(ErrorCode.BAD_REQUEST, "创建订单失败");
         } finally {
             redisLock.unlock(key, value);
         }
@@ -88,10 +86,10 @@ public class OrderService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public Order createOrder(String goodsId) {
+    public Order createOrderWithSQL(String goodsId) {
         goodsRepository.strictFind(goodsId);
         int existGoods = goodsRepository.createOrder(goodsId);
-        if(existGoods > 0) {
+        if (existGoods > 0) {
             return addGoodsOrder(goodsId);
         } else {
             return null;
@@ -112,6 +110,23 @@ public class OrderService {
         goods.setRemainingQuantity(goods.getRemainingQuantity() - 1);
         goodsRepository.saveAndFlush(goods);
         return addGoodsOrder(goodsId);
+    }
+
+    /**
+     * 更新商品剩余数量
+     *
+     * @param goodsId
+     * @return
+     */
+    private Goods updateGoodsRemainingQuantity(String goodsId) {
+        Goods goods = goodsRepository.findFirstByIdAndRemainingQuantityGreaterThan(goodsId, 0);
+        if (null == goods) {
+            valueOperations.set(goodsId, -1);
+            return null;
+        }
+        goods.setRemainingQuantity(goods.getRemainingQuantity() - 1);
+        goodsRepository.saveAndFlush(goods);
+        return goods;
     }
 
     /**

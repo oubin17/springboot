@@ -27,4 +27,16 @@ public class GoodsUpdateDto {
     @Min(value = 1, message = "商品数量不能小于1")
     @JsonProperty("remaining_quantity")
     private Integer remainingQuantity;
+
+    /**
+     * 商品上架时间
+     */
+    @JsonProperty("on_sale_time")
+    private Long onSaleTime;
+
+    /**
+     * 商品过期时间
+     */
+    @JsonProperty("expire_time")
+    private Long expireTime;
 }

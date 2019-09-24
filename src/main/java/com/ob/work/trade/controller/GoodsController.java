@@ -1,6 +1,7 @@
 package com.ob.work.trade.controller;
 
 import com.ob.common.constant.Constants;
+import com.ob.work.trade.domain.Goods;
 import com.ob.work.trade.dto.GoodsUpdateDto;
 import com.ob.work.trade.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,15 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    /**
+     * 添加抢购商品
+     *
+     * @param saveDto
+     */
     @RequestMapping(method = RequestMethod.POST)
-    public void addGoodsInfo(@Valid @RequestBody GoodsUpdateDto saveDto) {
-        goodsService.addGoodsInfo(saveDto);
+    public Goods addGoodsInfo(@Valid @RequestBody GoodsUpdateDto saveDto) {
+        return goodsService.addGoodsInfo(saveDto);
     }
+
+
 }
