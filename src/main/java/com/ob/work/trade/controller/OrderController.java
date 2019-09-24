@@ -23,7 +23,7 @@ public class OrderController {
 
     @RequestMapping(value = "/create/goods/{goodsId}", method = RequestMethod.POST)
     public Order createOrder(@PathVariable(value = "goodsId") String goodsId) {
-        return orderService.createOrderWithOptimisticLock(goodsId);
+        return orderService.createOrderWithRedisLock(goodsId);
     }
 
 }

@@ -25,11 +25,13 @@ public class RedisLock {
      */
     private static final String SET_IF_NOT_EXIST = "NX";
     /**
-     * 给key加一个过期的设置，具体时间由第五个参数给出
+     * 给key加一个过期的设置，具体时间由第五个参数给出(EX:seconds  PX:milliseconds)
      */
     private static final String SET_WITH_EXPIRE_TIME = "PX";
 
     private static final Long RELEASE_SUCCESS = 1L;
+
+    private static final Long DEFAULT_LOCK_TIME = 10000L;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -60,6 +62,17 @@ public class RedisLock {
             return false;
         }
         return false;
+    }
+
+    /**
+     * 默认10s
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean lock(String key, String value) {
+        return lock(key, value, DEFAULT_LOCK_TIME);
     }
 
     /**
