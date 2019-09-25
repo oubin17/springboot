@@ -1,6 +1,7 @@
 package com.ob.work.trade.service;
 
 import com.ob.common.base.service.CustomService;
+import com.ob.common.config.rabbitmq.RabbitProducer;
 import com.ob.common.exception.BizException;
 import com.ob.common.exception.ErrorCode;
 import com.ob.test.redis.service.RedisLock;
@@ -8,6 +9,7 @@ import com.ob.work.trade.constant.Constants;
 import com.ob.work.trade.domain.Goods;
 import com.ob.work.trade.dto.GoodsUpdateDto;
 import com.ob.work.trade.enums.GoodsStateEnum;
+import com.ob.work.trade.messagequeue.GoodsMqConfig;
 import com.ob.work.trade.repository.GoodsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,9 @@ public class GoodsService extends CustomService<Goods, String> {
 
     @Autowired
     private RedisLock redisLock;
+
+    @Autowired
+    private RabbitProducer rabbitProducer;
 
     private static long KEY_EXPIRE_TIME = 5 * 60L;
 
@@ -97,11 +102,16 @@ public class GoodsService extends CustomService<Goods, String> {
      */
     @Transactional(rollbackFor = Exception.class)
     public Goods updateGoodsByName(String id, String name) {
-        int update = goodsRepository.updateByGoodsName(id, name);
-        if (update > 0) {
+        Goods goods = this.strictFind(id);
+        goods.setGoodsName(name);
+        goodsRepository.saveAndFlush(goods);
+        try {
             redisTemplate.delete(Constants.GOODS_INFO_KEY + id);
+        } catch (Exception e) {
+            rabbitProducer.sendMsg(GoodsMqConfig.GOODS_TOPIC_EXCHANGE, GoodsMqConfig.GOODS_ORDER_REBUILD_ROUTING_KEY, id);
+            log.error("删除缓存失败{}", e);
         }
-        return getGoodsById(id);
+        return goods;
     }
 
 

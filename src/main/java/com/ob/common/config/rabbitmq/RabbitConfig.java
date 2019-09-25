@@ -1,6 +1,8 @@
 package com.ob.common.config.rabbitmq;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -56,5 +58,22 @@ public class RabbitConfig {
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public RabbitTemplate rabbitTemplate() {
         return new RabbitTemplate(connectionFactory());
+    }
+
+    /**
+     * 消费端设置属性
+     *
+     * @param connectionFactory
+     * @return
+     */
+    @Bean
+    public SimpleRabbitListenerContainerFactory customerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
+        simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
+        //手动确认消息
+        simpleRabbitListenerContainerFactory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        //设置消息预取的数量
+        simpleRabbitListenerContainerFactory.setPrefetchCount(1);
+        return simpleRabbitListenerContainerFactory;
     }
 }
