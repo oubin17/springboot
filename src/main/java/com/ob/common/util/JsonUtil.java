@@ -40,6 +40,27 @@ public class JsonUtil {
     /**
      * json转对象
      *
+     * @param bytes
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T byteArrayToBean(byte[] bytes, Class<T> clazz) {
+        if (null == bytes) {
+            return null;
+        }
+        Assert.notNull(clazz, "clazz not be null");
+        try {
+            return mapper.readValue(bytes, clazz);
+        } catch (IOException e) {
+            log.error("byte array to bean error:{}",bytes);
+            return null;
+        }
+    }
+
+    /**
+     * json转对象
+     *
      * @param json
      * @param clazz
      * @param <T>

@@ -29,7 +29,7 @@ public class OrderMqConsumer {
     @Transactional(rollbackFor = Exception.class)
     public void process(Message msg) {
         log.info("消费队列收到消息 : {}", msg);
-        Order order = JsonUtil.jsonToBean(msg.toString(), Order.class);
+        Order order = JsonUtil.byteArrayToBean(msg.getBody(), Order.class);
         orderRepository.expireOrder(order.getId(), OrderStateEnum.EXPIRED.getState(), System.currentTimeMillis());
     }
 }
