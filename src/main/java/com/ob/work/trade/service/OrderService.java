@@ -1,12 +1,12 @@
 package com.ob.work.trade.service;
 
 import com.ob.common.config.rabbitmq.RabbitProducer;
-import com.ob.common.constant.Constants;
 import com.ob.common.context.RequestContext;
 import com.ob.common.exception.BizException;
 import com.ob.common.exception.ErrorCode;
 import com.ob.common.util.JsonUtil;
 import com.ob.test.redis.service.RedisLock;
+import com.ob.work.trade.constant.Constants;
 import com.ob.work.trade.domain.Goods;
 import com.ob.work.trade.domain.Order;
 import com.ob.work.trade.enums.OrderStateEnum;
@@ -58,7 +58,7 @@ public class OrderService {
         if (null != num && num <= 0) {
             return null;
         }
-        String key = Constants.GOODS_ID_LOCK + goodsId;
+        String key = Constants.GOODS_ID_LOCK + ":" + goodsId;
         String value = UUID.randomUUID().toString();
         try {
             boolean lock = redisLock.lock(key, value);

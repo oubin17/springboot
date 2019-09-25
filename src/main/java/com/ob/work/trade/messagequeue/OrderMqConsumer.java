@@ -28,8 +28,11 @@ public class OrderMqConsumer {
     @RabbitHandler
     @Transactional(rollbackFor = Exception.class)
     public void process(Message msg) {
-        log.info("消费队列收到消息 : {}", msg);
-        Order order = JsonUtil.byteArrayToBean(msg.getBody(), Order.class);
-        orderRepository.expireOrder(order.getId(), OrderStateEnum.EXPIRED.getState(), System.currentTimeMillis());
+        try {
+            Order order = JsonUtil.byteArrayToBean(msg.getBody(), Order.class);
+            orderRepository.expireOrder(order.getId(), OrderStateEnum.EXPIRED.getState(), System.currentTimeMillis());
+        } catch (Exception e) {
+            log.info("队列消费消息失败 : {}", msg);
+        }
     }
 }

@@ -19,7 +19,7 @@ import java.io.Serializable;
 @NoRepositoryBean
 @MappedSuperclass
 @EntityListeners(BaseDomainListener.class)
-public abstract class BaseDomain<I extends Serializable> {
+public abstract class BaseDomain<I extends Serializable> implements Serializable {
 
     @Id
     @GeneratedValue(generator = "id")

@@ -13,10 +13,5 @@ public final class Constants {
      */
     public static final String VERSION_01 = "/v0.1";
 
-    /**
-     * redis 中key为商品id
-     */
-    public static final String GOODS_ID_KEY = "goods_id:";
 
-    public static final String GOODS_ID_LOCK = "goods_id:lock";
 }
