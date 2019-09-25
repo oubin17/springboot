@@ -1,12 +1,16 @@
 package com.ob.work.trade.service;
 
+import com.ob.common.config.rabbitmq.RabbitProducer;
 import com.ob.common.constant.Constants;
 import com.ob.common.context.RequestContext;
 import com.ob.common.exception.BizException;
 import com.ob.common.exception.ErrorCode;
+import com.ob.common.util.JsonUtil;
 import com.ob.test.redis.service.RedisLock;
 import com.ob.work.trade.domain.Goods;
 import com.ob.work.trade.domain.Order;
+import com.ob.work.trade.enums.OrderStateEnum;
+import com.ob.work.trade.messagequeue.OrderMqConfig;
 import com.ob.work.trade.repository.GoodsRepository;
 import com.ob.work.trade.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +42,9 @@ public class OrderService {
     @Autowired
     private ValueOperations valueOperations;
 
+    @Autowired
+    private RabbitProducer rabbitProducer;
+
     /**
      * 使用redis分布式锁控制并发
      *
@@ -66,8 +73,11 @@ public class OrderService {
                     valueOperations.set(Constants.GOODS_ID_KEY + goodsId, goods.getRemainingQuantity());
                 } else {
                     order = createOrderWithSQL(goodsId);
-                    valueOperations.increment(Constants.GOODS_ID_KEY + goodsId, -1);
+                    if (null != order) {
+                        valueOperations.increment(Constants.GOODS_ID_KEY + goodsId, -1);
+                    }
                 }
+                rabbitProducer.sendMsg(OrderMqConfig.ORDER_DELAY_EXCHANGE, OrderMqConfig.ORDER_DELAY_EXCHANGE_ROUTING_KEY, JsonUtil.toJson(order));
                 return order;
             }
         } catch (Exception e) {
@@ -140,6 +150,7 @@ public class OrderService {
         order.setUserId(RequestContext.currentUserId());
         order.setUserName(RequestContext.currentUserId());
         order.setGoodsId(goodsId);
+        order.setState(OrderStateEnum.UNPAID.getState());
         return orderRepository.save(order);
     }
 }

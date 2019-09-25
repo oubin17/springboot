@@ -6,6 +6,8 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -45,7 +47,7 @@ public class RabbitProducer implements RabbitTemplate.ConfirmCallback, RabbitTem
     }
 
     /**
-     * 像交换机发送message
+     * 向交换机发送message
      *
      * @param message
      * @param exchange

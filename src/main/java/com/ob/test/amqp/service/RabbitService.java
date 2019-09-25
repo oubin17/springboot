@@ -80,6 +80,14 @@ public class RabbitService {
 
     }
 
-
-
+    /**
+     * 发送消息到MQ
+     *
+     * @param msg
+     * @param queueName
+     * @param routingKey
+     */
+    public void sendMsgToQueue(String queueName, String routingKey, String msg) {
+        rabbitmqTemplate.convertAndSend(queueName, routingKey, msg);
+    }
 }

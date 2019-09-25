@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 /**
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @Date: 2019/9/23 11:12
  * @Description:
  */
+@MappedSuperclass
 public abstract class BaseStateDomain<I extends Serializable> extends BaseDomain<I> {
 
     /**
