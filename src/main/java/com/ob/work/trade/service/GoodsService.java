@@ -17,6 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.JedisPool;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -46,6 +47,9 @@ public class GoodsService extends CustomService<Goods, String> {
 
     @Autowired
     private RabbitProducer rabbitProducer;
+
+    @Autowired
+    private JedisPool jedisPool;
 
     private static long KEY_EXPIRE_TIME = 5 * 60L;
 
@@ -112,6 +116,31 @@ public class GoodsService extends CustomService<Goods, String> {
             log.error("删除缓存失败{}", e);
         }
         return goods;
+    }
+
+
+    /**
+     * 1.修改商品上架时间,应该保证数据库和缓存都是最新的时间
+     * 2.使用redis的事务机制实现CAS乐观锁
+     *
+     * @param id
+     * @return
+     */
+    public Goods updateGoodsExpireTime(String id) {
+//        Goods goods = goodsRepository.findOne(id);
+//        goods.setExpireTime(System.currentTimeMillis());
+//        goodsRepository.saveAndFlush(goods);
+//        //TODO 同时更新redis，需要并发控制
+//
+//        redisTemplate.watch(Constants.GOODS_INFO_KEY);
+//        redisTemplate.multi();
+//        Goods cacheGoods = (Goods) redisTemplate.boundValueOps(Constants.GOODS_INFO_KEY + id).get();
+//        if (goods.getExpireTime() > cacheGoods.getExpireTime()) {
+//            redisTemplate.boundValueOps(Constants.GOODS_INFO_KEY + id).set(goods);
+//        }
+//        redisTemplate.exec();
+//        redisTemplate.unwatch();
+        return null;
     }
 
 

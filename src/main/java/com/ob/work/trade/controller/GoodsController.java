@@ -55,4 +55,14 @@ public class GoodsController {
         return goodsService.updateGoodsByName(id, saveDto.getGoodsName());
     }
 
+    /**
+     * 用redis事务控制redis并发写顺序
+     *
+     * @param id
+     */
+    @RequestMapping(value = "/expire_time/{goods_id}", method = RequestMethod.PUT)
+    public void changeGoodsExpireTime(@PathVariable("goods_id") String id) {
+        goodsService.updateGoodsExpireTime(id);
+    }
+
 }
