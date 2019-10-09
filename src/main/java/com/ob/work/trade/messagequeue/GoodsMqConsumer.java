@@ -1,7 +1,7 @@
 package com.ob.work.trade.messagequeue;
 
 import com.ob.work.trade.constant.Constants;
-import com.ob.work.trade.domain.Goods;
+import com.ob.work.trade.entity.Goods;
 import com.ob.work.trade.repository.GoodsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;

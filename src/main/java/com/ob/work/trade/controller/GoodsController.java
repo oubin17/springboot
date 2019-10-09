@@ -1,7 +1,7 @@
 package com.ob.work.trade.controller;
 
 import com.ob.common.constant.Constants;
-import com.ob.work.trade.domain.Goods;
+import com.ob.work.trade.entity.Goods;
 import com.ob.work.trade.dto.GoodsUpdateDto;
 import com.ob.work.trade.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;

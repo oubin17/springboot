@@ -1,7 +1,7 @@
 package com.ob.work.trade.controller;
 
 import com.ob.common.constant.Constants;
-import com.ob.work.trade.domain.Order;
+import com.ob.work.trade.entity.Order;
 import com.ob.work.trade.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

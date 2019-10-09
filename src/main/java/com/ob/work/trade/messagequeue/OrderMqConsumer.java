@@ -1,7 +1,7 @@
 package com.ob.work.trade.messagequeue;
 
 import com.ob.common.util.JsonUtil;
-import com.ob.work.trade.domain.Order;
+import com.ob.work.trade.entity.Order;
 import com.ob.work.trade.enums.OrderStateEnum;
 import com.ob.work.trade.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;

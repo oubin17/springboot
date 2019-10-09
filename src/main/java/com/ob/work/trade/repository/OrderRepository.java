@@ -1,6 +1,6 @@
 package com.ob.work.trade.repository;
 
-import com.ob.work.trade.domain.Order;
+import com.ob.work.trade.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

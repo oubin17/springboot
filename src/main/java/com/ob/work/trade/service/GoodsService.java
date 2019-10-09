@@ -6,7 +6,7 @@ import com.ob.common.exception.BizException;
 import com.ob.common.exception.ErrorCode;
 import com.ob.test.redis.service.RedisLock;
 import com.ob.work.trade.constant.Constants;
-import com.ob.work.trade.domain.Goods;
+import com.ob.work.trade.entity.Goods;
 import com.ob.work.trade.dto.GoodsUpdateDto;
 import com.ob.work.trade.enums.GoodsStateEnum;
 import com.ob.work.trade.messagequeue.GoodsMqConfig;

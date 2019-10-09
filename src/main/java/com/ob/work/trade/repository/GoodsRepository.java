@@ -1,7 +1,7 @@
 package com.ob.work.trade.repository;
 
 import com.ob.common.base.repository.CustomRepository;
-import com.ob.work.trade.domain.Goods;
+import com.ob.work.trade.entity.Goods;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

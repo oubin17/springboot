@@ -1,4 +1,4 @@
-package com.ob.work.trade.domain;
+package com.ob.work.trade.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ob.common.base.domain.BaseStateDomain;
