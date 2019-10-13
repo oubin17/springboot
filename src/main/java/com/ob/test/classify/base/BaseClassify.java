@@ -1,13 +1,17 @@
 package com.ob.test.classify.base;
 
+import com.ob.test.classify.aggregate.BaseAggregator;
+import lombok.Data;
+
 /**
  * @Author: oubin
  * @Date: 2019/10/12 15:26
  * @Description:
  */
+@Data
 public abstract class BaseClassify<T> {
 
-    private String domainName;
+    protected String domainName;
 
     private BaseAggregator<T> baseAggregator;
 

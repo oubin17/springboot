@@ -1,5 +1,8 @@
 package com.ob.test.classify.base;
 
+import com.ob.test.classify.aggregate.Aggregative;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 
 /**
@@ -7,22 +10,23 @@ import java.util.List;
  * @Date: 2019/10/12 15:35
  * @Description:
  */
+@Slf4j
 @ClassifyName(name = "StudentClassify")
 public class StudentClassify<T> extends BaseClassify<T> implements Aggregative<T>, Initializing {
 
     @Override
     public T firstObject() {
-        return null;
+        return this.getBaseAggregator().firstObject();
     }
 
     @Override
     public T lastObject() {
-        return null;
+        return this.getBaseAggregator().lastObject();
     }
 
     @Override
     public List<T> fullObjects() {
-        return null;
+        return this.getBaseAggregator().fullObjects();
     }
 
     @Override
@@ -37,6 +41,6 @@ public class StudentClassify<T> extends BaseClassify<T> implements Aggregative<T
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
+        log.info("调用初始化方法成功...");
     }
 }

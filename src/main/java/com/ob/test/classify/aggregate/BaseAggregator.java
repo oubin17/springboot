@@ -1,4 +1,4 @@
-package com.ob.test.classify.base;
+package com.ob.test.classify.aggregate;
 
 import java.util.Map;
 

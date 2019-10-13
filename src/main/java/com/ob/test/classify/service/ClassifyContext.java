@@ -1,8 +1,11 @@
 package com.ob.test.classify.service;
 
 import com.google.common.collect.Maps;
+import com.ob.test.classify.aggregate.BaseAggregator;
+import com.ob.test.classify.aggregate.JpaAggregator;
 import com.ob.test.classify.base.BaseClassify;
 import com.ob.test.classify.base.ClassifyName;
+import com.ob.test.classify.base.Initializing;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.springframework.beans.BeansException;
@@ -37,8 +40,18 @@ public class ClassifyContext implements ApplicationContextAware {
         }
     }
 
-    public static BaseClassify getClassify(String type) {
+    public static BaseClassify getClassify(String type) throws Exception {
         Class c = classifies.get(type);
+        ClassifyName classifyName = (ClassifyName) c.getAnnotation(ClassifyName.class);
+        if (classifyName.name().equals(type)) {
+            BaseClassify baseClassify = (BaseClassify) c.newInstance();
+            if (baseClassify instanceof Initializing) {
+                ((Initializing) baseClassify).afterPropertiesSet();
+            }
+            BaseAggregator baseAggregator = applicationContext.getBean(JpaAggregator.class);
+            baseClassify.setBaseAggregator(baseAggregator);
+            return baseClassify;
+        }
         return null;
 
     }
