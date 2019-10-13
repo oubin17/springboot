@@ -6,7 +6,7 @@
 
 ## RabbitMQ
 
-> [概念理解]( [https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ%E6%A6%82%E5%BF%B5.md](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ概念.md) )
+> [概念理解](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ概念.md)
 
 ## 简易订单
 
