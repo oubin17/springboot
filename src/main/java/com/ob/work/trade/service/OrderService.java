@@ -5,7 +5,7 @@ import com.ob.common.context.RequestContext;
 import com.ob.common.exception.BizException;
 import com.ob.common.exception.ErrorCode;
 import com.ob.common.util.JsonUtil;
-import com.ob.test.redis.service.RedisLock;
+import com.ob.modelexample.redis.service.RedisLock;
 import com.ob.work.trade.constant.Constants;
 import com.ob.work.trade.entity.Goods;
 import com.ob.work.trade.entity.Order;
