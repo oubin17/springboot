@@ -1,7 +1,7 @@
 package com.ob.work.trade.service;
 
 import com.ob.common.config.rabbitmq.RabbitProducer;
-import com.ob.common.context.RequestContext;
+import com.ob.common.context.SessionContext;
 import com.ob.common.exception.BizException;
 import com.ob.common.exception.ErrorCode;
 import com.ob.common.util.JsonUtil;
@@ -147,8 +147,8 @@ public class OrderService {
      */
     private Order addGoodsOrder(String goodsId) {
         Order order = new Order();
-        order.setUserId(RequestContext.currentUserId());
-        order.setUserName(RequestContext.currentUserId());
+        order.setUserId(SessionContext.currentUserId());
+        order.setUserName(SessionContext.currentUserId());
         order.setGoodsId(goodsId);
         order.setState(OrderStateEnum.UNPAID.getState());
         return orderRepository.save(order);

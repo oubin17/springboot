@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Description:
  */
 @Slf4j
-public class RequestContext {
+public class SessionContext {
 
     private static final String AUTHORIZATION = "AUTHORIZATION";
 

@@ -1,6 +1,6 @@
 package com.ob.common.base.domain;
 
-import com.ob.common.context.RequestContext;
+import com.ob.common.context.SessionContext;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.PrePersist;
@@ -22,9 +22,9 @@ public class BaseDomainListener {
     @PrePersist
     public void prePersist(BaseDomain baseDomain) {
         baseDomain.setCreateTime(System.currentTimeMillis());
-        baseDomain.setCreateBy(RequestContext.currentUserId());
+        baseDomain.setCreateBy(SessionContext.currentUserId());
         baseDomain.setLastModifiedTime(System.currentTimeMillis());
-        baseDomain.setLastModifiedBy(RequestContext.currentUserId());
+        baseDomain.setLastModifiedBy(SessionContext.currentUserId());
 
     }
 
@@ -36,6 +36,6 @@ public class BaseDomainListener {
     @PreUpdate
     public void preUpdate(BaseDomain baseDomain) {
         baseDomain.setLastModifiedTime(System.currentTimeMillis());
-        baseDomain.setLastModifiedBy(RequestContext.currentUserId());
+        baseDomain.setLastModifiedBy(SessionContext.currentUserId());
     }
 }
