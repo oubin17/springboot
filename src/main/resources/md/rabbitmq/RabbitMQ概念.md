@@ -12,7 +12,7 @@
 
 > RabbitMQ是由Erlang语言编写的实现了高级消息队列协议的开源消息代理软件（面向消息的中间件）
 
-![alt ](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-1.png)
+![alt ](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-1.png)
 
 Queue：消息队列。消息的载体，每条消息都会被投递到一个或者多个队列中，如果消息无法路由到某个队列，生产者需要相应的配置接收无法路由的消息，否则丢弃。
 
@@ -32,7 +32,7 @@ Channel：消息通道，也称信道，在客户端的每个连接里可以建�
 
 > 多个消费者可以订阅同一个队列，队列中的消息会被平均分摊（Round-Robin轮询）到多个消费者进行处理，而不是每个消费者都收到所有的消息并处理。
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-2.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-2.png)
 
 ### Exchange
 
@@ -44,15 +44,15 @@ Channel：消息通道，也称信道，在客户端的每个连接里可以建�
 >
 > topic：它将消息路由到BindKey与RoutingKey相匹配的队列中，这里有不同的匹配规则：
 >
-> ![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-3.png)
+> ![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-3.png)
 >
 > headers：headers类型的交换器不依赖于路由键的匹配规则来路由消息，而是根据发送的消息内容中headers属性进行匹配。在绑定队列和交换器时制定一组键值对 当发送消息到交换器时，RabbitMQ 会获取到该消息的 headers (也是一个键值对的形式) ，对比其中的键值对是否完全匹配队列和交换器绑定时指定的键值对，如果完全匹配则消息会路由到该队列，否则不会路由到该队列 headers 类型的交换器性能会很差，而且也不实用，基本上不会看到它的存在。
 
 ### 连接和信道
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-4.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-4.png)
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-5.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-5.png)
 
 Connection可以用来创建多个channel，但是Channel实例不能在线程间共享，应用程序应该为每一个线程开辟一个channel，某些情况下channel的操作可以并发运行，但是在其他情况下会导致在网络上出现错误的通信帧交错，同时也会影响发送方确认机制的运行，所以多线程间共享channel实例是非线程安全的。
 
@@ -60,7 +60,7 @@ Connection可以用来创建多个channel，但是Channel实例不能在线程�
 
 RabbitMQ的消息存储在队列中，交换器的使用并不真正消耗服务器的性能，而队列会。
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-6.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-6.png)
 
 
 
@@ -148,13 +148,13 @@ RabbitMQ 2.0 版本开始引入了 Basic .Reject 这个命令，消费者客户�
 >
 > （3）队列达到最大长度
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-9.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-9.png)
 
 ## 延迟队列
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-10.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-10.png)
 
-![RabbitMQ-11](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-11.png)
+![RabbitMQ-11](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-11.png)
 
 
 
@@ -164,23 +164,23 @@ RabbitMQ 2.0 版本开始引入了 Basic .Reject 这个命令，消费者客户�
 >
 > 可以通过在声明交换器的时候添加alternate-exchange参数来实现，也可以通过策略（Policy）的方式实现。如果两者同时使用，则前者的优先级更高。
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-7.jpg)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-7.jpg)
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-8.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-8.png)
 
 ## 消息分发
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-12.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-12.png)
 
 ## 消息中间件的作用
 
 > 解耦，冗余，扩展性，削峰，可恢复性，顺序保证，缓冲，异步通信。
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-13.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-13.png)
 
-![RabbitMQ-14](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-14.png)
+![RabbitMQ-14](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-14.png)
 
 ## 消息传输保障
 
-![](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-15.png)
+![](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/RabbitMQ-15.png)
 

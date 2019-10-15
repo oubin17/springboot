@@ -9,13 +9,13 @@
 
 > 新增热点商品时，先将商品入库，再写缓存，进行缓存预热。 
 
-![缓存预热](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/缓存预热.png)
+![缓存预热](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/order/缓存预热.png)
 
 ### ID获取商品详情
 
 > 先从缓存中获取，命中则直接返回，否则，用Redis获取分布式锁，保证同一时间只有一个线程可以获取得到锁资源，获取锁的线程再次从缓存中获取，获取到资源直接返回，这里是为了防止其他线程已经将资源写入缓存，避免多余的数据库请求，获取不到再请求数据库，资源不为空，写缓存，返回结果，资源为空，为了避免缓存穿透，构造一个默认资源，写入缓存，返回空。
 
-![ID获取缓存](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/ID获取缓存.png)
+![ID获取缓存](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/order/ID获取缓存.png)
 
 ### 更新热点商品
 
@@ -36,7 +36,7 @@
 > - 一般来说，如果不允许缓存和数据库偶尔存在的数据不一致情况，则不能用此方案，因为在消费者消费消息之前，缓存中的数据是脏数据，这时候如果直接从缓存中获取资源的话就导致数据不一致。
 > - 如果要求缓存和数据库的强一致性，需要将**读请求和写请求串行化**，串到一个内存队列中去，这样可以保证不会出现数据不一致的情况，但是会导致系统的吞吐量大幅度降低。
 
-![更新商品](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/更新商品.png)
+![更新商品](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/order/更新商品.png)
 
 ## 订单
 
@@ -59,4 +59,4 @@
 > - 可以使用异步创建订单的方式，增加用户体验，等需要付款查询订单的时候再去判断订单是否生成成功。
 > - 获取不到锁的线程可以采用自旋的方式尝试再次获取锁，超出重试次数未获取到就获取失败，但是其实这也无伤大雅，也就是用户再界面多执行几次创建订单的操作。
 
-![创建订单](https://github.com/oub9527/springboot/blob/master/src/main/resources/images/创建订单.png)
+![创建订单](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/order/创建订单.png)
