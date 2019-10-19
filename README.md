@@ -4,9 +4,13 @@
 >
 > 主要目的是针对学习工作中遇到的一些问题和对于问题的总结，删除了复杂的业务逻辑，提供简易版的demo，用于学习交流。（很多代码还未提供MD文件说明，文档不断在更新中）
 
+## Spring Data JPA
+
+> [JPA]( [https://github.com/oubin17/springboot/blob/master/src/main/resources/md/jpa/Spring Data JPA.md](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/jpa/RSpring Data JPA.md) )
+
 ## RabbitMQ
 
-> [概念理解](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ概念.md)
+> [概念理解]( [https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ概念.md](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ概念.md) )
 
 ## 简易订单
 
