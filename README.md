@@ -6,7 +6,7 @@
 
 ## Spring Data JPA
 
-> [JPA]( [https://github.com/oubin17/springboot/blob/master/src/main/resources/md/jpa/Spring Data JPA.md](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/jpa/RSpring Data JPA.md) )
+> [JPA]( [https://github.com/oubin17/springboot/blob/master/src/main/resources/md/jpa/Spring Data JPA.md](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/jpa/Spring Data JPA.md) )
 
 ## RabbitMQ
 
