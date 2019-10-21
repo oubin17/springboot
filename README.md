@@ -11,6 +11,7 @@
 ## RabbitMQ
 
 > [概念理解](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ概念.md)
+> [RabbitMQ使用](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ使用.md)
 
 ## 简易订单
 
