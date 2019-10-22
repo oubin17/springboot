@@ -59,11 +59,71 @@ x-match = any ：表示只要有键值对匹配就能接受到消息
 （3）队列达到最大长度
 ```
 
+![deadline](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/deadline.png)
+
 ![deadlineexchange](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/deadlineexchange.png)
 
 [Spring Boot结合RabbitMQ死信队列代码示例](https://github.com/oubin17/springboot/tree/master/src/main/java/com/ob/modelexample/amqp/mqconfig/delayqueue)
 
-## 消费端和服务端配置
+## 高级特性
+
+#### 如何保障消息100%投递成功？
+
+> * 保障消息成功发出
+> * 保障MQ节点成功接收
+> * 发送短收到MQ节点（Broker）确认应答
+> * 完善消息进行补偿机制
+
+消息补偿机制：在发送消息的时候，将消息持久化到数据库中，并给这个消息设置一个状态（未发送，发送中，已到达），当消息状态发生了变化，需要对消息状态做变更，针对没有到达的消息做一个轮询操作，重新发送，对轮询次数也需要做限制，确保消息成功发送。
+
+![消息可靠性投递](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/消息可靠性投递.png)
+
+> UpStream Service：生产端
+>
+> DownStream Service：消费端
+>
+> CallBack Service：回调服务
+
+* step1：业务消息入库后，第一次消息发送。
+* step2：同样在消息入库成功后，发送第二次消息，这两条消息是同时发送的，第二条消息是延迟检查，可设置2min，5min延迟发送。
+* step3：消费端监听指定队列。
+* step4：消费端处理完消息后，内部生成新的消息send confirm，投递到MQ Broker。
+* step5：CallBack Service回调监听服务监听MQ Broker，如果收到DownStream Service发送的消息，则可以确认消息发送成功，执行消息存储到MSG DB。
+* step6：Check Detail检查监听step2延迟投递的消息，此时两个监听的队列不是同一个。收到延迟消息后，CallBack Service检查MSG DB，如果发现之前的消息已经投递成功，则不需要做其他事情，如果检查发现失败，则进行补偿，主动发送RPC通信，通知上游生产端重新发送消息。
+
+> 目的：少做了一个DB存储，关注点并不是百分百投递成功，而是性能
+
+#### 幂等性保障
+
+> 在高并发情况下，有大量的消息到达MQ，消费端需要去消费大量的消息，这样情况下，难免出现消息的重复投递，网络闪断等。如果不做幂等，就会出现消息的重复消息。消费端的重复消息实际上并不是主要问题，问题是如何保障重复消费下的幂等性。消费端实现幂等，就意味着，即使重复消费，也不影响实际的结果。
+
+##### 唯一ID+指纹码机制
+
+> * 利用数据库主键去重，保证唯一性
+> * SELECT COUNT(1) FROM T_ABC WHERE ID = 唯一ID + 指纹码，如果没有，则说明消息未被消费。
+> * 好处：实现简单
+> * 坏处：高并发情况下数据库写入的性能瓶颈
+> * 解决方案：分库分表，减少数据库压力
+
+##### Redis原子特性实现
+
+最简单使用Redis的自增。
+
+> - 使用Redis进行幂等，需要考虑的问题。
+> - 第一：我们是否需要数据落库，如果落库的话，关键解决的问题是数据库和缓存如何做到原子性？ 加事务不行，Redis和数据库的事务不是同一个，无法保证同时成功同时失败。大家有什么更好的方案呢？
+> - 第二：如果不进行落库，那么都存储到缓存中，如何设置定时同步的策略？ 怎么做到缓存数据的稳定性？
+
+## Confirm确认消息和Return消息机制
+
+> 生产者投递消息之后，如果Broker收到消息，就会给生产者一个应答
+>
+> 生产者接收应答，确认消息是否正常到达Broker，这种方式也是消息的可靠性投递的核心保障
+>
+> Return主要是用于key路由不到指定的队列，因此是一个错误的消息。MQ Broker提供了这种Return机制，将这些路由不可达的消息重新发送给生产端，生产端需要设置Return Listener去接收这些不可达的消息。
+
+![消息确认](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/消息确认.png)
+
+![Return消息机制](https://github.com/oubin17/springboot/blob/master/src/main/resources/images/rabbitmq/Return消息机制.png)
 
 #### RabbitMQ消息确认和消息路由不可达
 
@@ -71,102 +131,98 @@ x-match = any ：表示只要有键值对匹配就能接受到消息
 @Slf4j
 @Component
 public class RabbitProducer implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
+private final RabbitTemplate rabbitTemplate;
 
-    private final RabbitTemplate rabbitTemplate;
+/**
+ * mandatory：设置为true，监听器会接收到路由不可达的消息，如果是false，broker端直接删除该消息
+ *
+ * @param rabbitTemplate
+ */
+@Autowired
+public RabbitProducer(RabbitTemplate rabbitTemplate) {
+    this.rabbitTemplate = rabbitTemplate;
+    this.rabbitTemplate.setConfirmCallback(this);
+    this.rabbitTemplate.setReturnCallback(this);
+    this.rabbitTemplate.setMandatory(true);
+}
 
-    /**
-     * mandatory：设置为true，监听器会接收到路由不可达的消息，如果是false，broker端直接删除该消息
-     *
-     * @param rabbitTemplate
-     */
-    @Autowired
-    public RabbitProducer(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-        this.rabbitTemplate.setConfirmCallback(this);
-        this.rabbitTemplate.setReturnCallback(this);
-        this.rabbitTemplate.setMandatory(true);
-    }
+/**
+ * id + 时间戳 全局唯一  用于ack保证唯一一条消息 这里先用uuid表示
+ *
+ * @param message
+ */
+public void sendMsg(Object message) {
+    CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+    rabbitTemplate.convertAndSend(JsonUtil.toJson(message), correlationData);
+}
 
-    /**
-     * id + 时间戳 全局唯一  用于ack保证唯一一条消息 这里先用uuid表示
-     *
-     * @param message
-     */
-    public void sendMsg(Object message) {
-        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
-        rabbitTemplate.convertAndSend(JsonUtil.toJson(message), correlationData);
-    }
+/**
+ * 向交换机发送message
+ *
+ * @param message
+ * @param exchange
+ * @param routingKey
+ */
+public void sendMsg(String exchange, String routingKey, Object message) {
+    CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+    rabbitTemplate.convertAndSend(exchange, routingKey, message, correlationData);
+}
 
-    /**
-     * 向交换机发送message
-     *
-     * @param message
-     * @param exchange
-     * @param routingKey
-     */
-    public void sendMsg(String exchange, String routingKey, Object message) {
-        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
-        rabbitTemplate.convertAndSend(exchange, routingKey, message, correlationData);
-    }
-
-    /**
-     * 消息成功发送到broker时回调的方法
-     *
-     * @param correlationData
-     * @param ack
-     * @param cause
-     */
-    @Override
-    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-        log.info("回调ID:{}", correlationData);
-        if (ack) {
-            log.info("消息成功发送到broker");
-        } else {
-            log.error("消息发送至broker失败{}", cause);
-        }
-    }
-
-    /**
-     * 当根据路由键无法路由到队列的时候回调的方法
-     *
-     * @param message
-     * @param replyCode
-     * @param replyText
-     * @param exchange
-     * @param routingKey
-     */
-    @Override
-    public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-        log.info("消息不可达...");
-        log.info("return message:{}, exchange:{}, routingKey:{}, replyCode:{}, replyText:{}",
-                message.toString(),
-                exchange,
-                routingKey,
-                replyCode,
-                replyText);
+/**
+ * 消息成功发送到broker时回调的方法
+ *
+ * @param correlationData
+ * @param ack
+ * @param cause
+ */
+@Override
+public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+    log.info("回调ID:{}", correlationData);
+    if (ack) {
+        log.info("消息成功发送到broker");
+    } else {
+        log.error("消息发送至broker失败{}", cause);
     }
 }
-```
 
+/**
+ * 当根据路由键无法路由到队列的时候回调的方法
+ *
+ * @param message
+ * @param replyCode
+ * @param replyText
+ * @param exchange
+ * @param routingKey
+ */
+@Override
+public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
+    log.info("消息不可达...");
+    log.info("return message:{}, exchange:{}, routingKey:{}, replyCode:{}, replyText:{}",
+            message.toString(),
+            exchange,
+            routingKey,
+            replyCode,
+            replyText);
+}
+}
+```
 #### RabbitMQ消费端限流
 
 ```
-
-    /**
-     * 消费端设置属性
-     *
-     * @param connectionFactory
-     * @return
-     */
-    @Bean
-    public SimpleRabbitListenerContainerFactory customerContainerFactory(ConnectionFactory connectionFactory) {
-        SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
-        simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
-        //手动确认消息
-        simpleRabbitListenerContainerFactory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
-        //设置消息预取的数量
-        simpleRabbitListenerContainerFactory.setPrefetchCount(1);
-        return simpleRabbitListenerContainerFactory;
-    }
+/**
+ * 消费端设置属性
+ *
+ * @param connectionFactory
+ * @return
+ */
+@Bean
+public SimpleRabbitListenerContainerFactory customerContainerFactory(ConnectionFactory connectionFactory) {
+    SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
+    simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
+    //手动确认消息
+    simpleRabbitListenerContainerFactory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+    //设置消息预取的数量
+    simpleRabbitListenerContainerFactory.setPrefetchCount(1);
+    return simpleRabbitListenerContainerFactory;
+}
 ```
-

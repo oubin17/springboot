@@ -6,14 +6,14 @@
 
 ## Spring Data JPA
 
-> [JPA](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/jpa/JPA.md)
+> * [JPA](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/jpa/JPA.md)
 
 ## RabbitMQ
 
-> [概念理解](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ概念.md)
-> [RabbitMQ使用](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ使用.md)
+> * [概念理解](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ概念.md)
+> * [RabbitMQ特性](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/rabbitmq/RabbitMQ使用.md)
 
 ## 简易订单
 
->  [Order](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/order/Order.md) 
+> * [Order](https://github.com/oubin17/springboot/blob/master/src/main/resources/md/order/Order.md) 
 
