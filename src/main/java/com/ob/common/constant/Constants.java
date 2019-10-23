@@ -14,4 +14,9 @@ public final class Constants {
     public static final String VERSION_01 = "/v0.1";
 
 
+    public static final int DEFAULT_OFFSET = 0;
+    public static final int DEFAULT_LIMIT = 10;
+    public static final int DEFAULT_MAX_LIMIT = 100;
+
+    public static final String COMMA_STR = ",";
 }

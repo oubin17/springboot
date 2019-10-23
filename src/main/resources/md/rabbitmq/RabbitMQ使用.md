@@ -226,3 +226,15 @@ public SimpleRabbitListenerContainerFactory customerContainerFactory(ConnectionF
     return simpleRabbitListenerContainerFactory;
 }
 ```
+
+#### 参考资料
+> * 《RabbitMQ实战指南》
+> * https://github.com/doocs/advanced-java/blob/master/docs/distributed-system/distributed-transaction.md
+> * https://blog.csdn.net/li1987by/article/details/90449921
+> * https://www.cnblogs.com/huigelaile/p/10928984.html
+> * https://www.cnblogs.com/haixiang/p/10905189.html
+> * https://blog.csdn.net/hellozpc/article/details/81436980
+> * https://www.cnblogs.com/haoxinyue/p/6613706.html
+> * https://www.cnblogs.com/xishuai/p/spring-boot-rabbitmq-delay-queue.html
+> * https://juejin.im/post/5d482690f265da03b5743136
+> * https://www.cnblogs.com/doit8791/p/10328402.html
