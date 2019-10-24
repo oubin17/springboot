@@ -21,9 +21,9 @@ public class BaseDomainListener {
      */
     @PrePersist
     public void prePersist(BaseDomain baseDomain) {
-        baseDomain.setCreateTime(System.currentTimeMillis());
+        baseDomain.setCreateAt(System.currentTimeMillis());
         baseDomain.setCreateBy(SessionContext.currentUserId());
-        baseDomain.setLastModifiedTime(System.currentTimeMillis());
+        baseDomain.setLastModifiedAt(System.currentTimeMillis());
         baseDomain.setLastModifiedBy(SessionContext.currentUserId());
 
     }
@@ -35,7 +35,7 @@ public class BaseDomainListener {
      */
     @PreUpdate
     public void preUpdate(BaseDomain baseDomain) {
-        baseDomain.setLastModifiedTime(System.currentTimeMillis());
+        baseDomain.setLastModifiedAt(System.currentTimeMillis());
         baseDomain.setLastModifiedBy(SessionContext.currentUserId());
     }
 }

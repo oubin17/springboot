@@ -61,4 +61,13 @@ public class StudentController {
         studentService.updateWithVersion(id);
     }
 
+    /**
+     * 编程式事务管理测试
+     * @param id
+     */
+    @RequestMapping(value = "/transactional/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") String id) {
+        studentService.deleteById(id);
+    }
+
 }

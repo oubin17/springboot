@@ -23,4 +23,12 @@ public interface StudentRepository extends CustomRepository<Student, String>, Jp
     @Modifying
     @Query(value = "update t_student t set t.count_student = t.count_student + 1 where id=:id", nativeQuery = true)
     int countAdd(@Param("id") String id);
+
+    /**
+     * 根据id删除
+     *
+     * @param id
+     * @return
+     */
+    int deleteById(String id);
 }

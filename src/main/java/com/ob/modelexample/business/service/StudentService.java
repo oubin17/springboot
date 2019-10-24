@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * @author: oubin
@@ -25,6 +26,9 @@ public class StudentService extends CustomService<Student, String> {
 
     @Autowired
     private AsyncUtils asyncUtils;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
 
     @Autowired
     public StudentService(StudentRepository studentRepository) {
@@ -65,5 +69,25 @@ public class StudentService extends CustomService<Student, String> {
         Student student = super.strictFind(id);
         student.setCountStudent(student.getCountStudent() + 1);
         studentRepository.save(student);
+    }
+
+    /**
+     * 编程式事务管理测试
+     * @param id
+     */
+    public void deleteById(String id) {
+        transactionTemplate.execute(status -> {
+            try {
+                Student student = new Student();
+                student.setName("编程式事务管理");
+                student.setVersion(1);
+                studentRepository.save(student);
+                //执行该delete后手动删除数据库的数据，将不会添加新的学生
+                studentRepository.deleteById(id);
+            } catch (Exception e) {
+                status.setRollbackOnly();
+            }
+            return null;
+        });
     }
 }

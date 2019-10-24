@@ -33,7 +33,7 @@ public abstract class BaseDomain<I extends Serializable> implements Serializable
     @CreatedDate
     @Column(updatable = false, nullable = false, columnDefinition = "timestamp not null")
     @Field("create_time")
-    private Long createTime;
+    private Long createAt;
 
     /**
      * 创建人
@@ -50,8 +50,8 @@ public abstract class BaseDomain<I extends Serializable> implements Serializable
     @JsonProperty("last_modified_at")
     @LastModifiedDate
     @Column(nullable = false, columnDefinition = "timestamp not null")
-    @Field("last_modified_time")
-    private Long lastModifiedTime;
+    @Field("last_modified_at")
+    private Long lastModifiedAt;
 
     /**
      * 修改人
@@ -69,12 +69,12 @@ public abstract class BaseDomain<I extends Serializable> implements Serializable
         this.id = id;
     }
 
-    public Long getCreateTime() {
-        return createTime;
+    public Long getCreateAt() {
+        return createAt;
     }
 
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
     }
 
     public String getCreateBy() {
@@ -85,12 +85,12 @@ public abstract class BaseDomain<I extends Serializable> implements Serializable
         this.createBy = createBy;
     }
 
-    public Long getLastModifiedTime() {
-        return lastModifiedTime;
+    public Long getLastModifiedAt() {
+        return lastModifiedAt;
     }
 
-    public void setLastModifiedTime(Long lastModifiedTime) {
-        this.lastModifiedTime = lastModifiedTime;
+    public void setLastModifiedAt(Long lastModifiedAt) {
+        this.lastModifiedAt = lastModifiedAt;
     }
 
     public String getLastModifiedBy() {
