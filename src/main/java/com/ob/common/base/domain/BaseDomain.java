@@ -32,7 +32,7 @@ public abstract class BaseDomain<I extends Serializable> implements Serializable
     @JsonProperty("create_at")
     @CreatedDate
     @Column(updatable = false, nullable = false, columnDefinition = "timestamp not null")
-    @Field("create_time")
+    @Field("create_at")
     private Long createAt;
 
     /**

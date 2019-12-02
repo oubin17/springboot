@@ -118,7 +118,7 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @return
      */
     @Bean
-    public ValueOperations<String, Object> hashOperators(RedisTemplate<String, Object> redisTemplate) {
+    public ValueOperations<String, Object> valueOperations(RedisTemplate<String, Object> redisTemplate) {
         return redisTemplate.opsForValue();
     }
 
