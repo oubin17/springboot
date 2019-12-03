@@ -125,7 +125,7 @@ public class RedisBaseDao {
      * @param expireTime
      * @param timeUnit
      */
-    public void setKeyWithExpireTime(String key, String value, long expireTime, TimeUnit timeUnit) {
+    public void setKeyWithExpireTime(String key, Object value, long expireTime, TimeUnit timeUnit) {
         valueOperations.set(key, value, expireTime, timeUnit);
     }
 
@@ -135,7 +135,7 @@ public class RedisBaseDao {
      * @param key
      * @param value
      */
-    public void addValue(String key, String value){
+    public void addValue(String key, Object value){
         valueOperations.set(key, value);
     }
 

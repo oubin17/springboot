@@ -50,7 +50,7 @@ public class GoodsController {
      * @return
      */
     @RequestMapping(value = "/{goods_id}", method = RequestMethod.PUT)
-    public Goods addGoodsInfo(@PathVariable("goods_id") String id,
+    public Goods updateGoodsInfo(@PathVariable("goods_id") String id,
                               @Valid @RequestBody GoodsUpdateDto saveDto) {
         return goodsService.updateGoodsByName(id, saveDto.getGoodsName());
     }

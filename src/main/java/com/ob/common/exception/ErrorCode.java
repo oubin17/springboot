@@ -13,6 +13,7 @@ public enum ErrorCode {
     //seckill
     ON_SALE_TIME_NOT_CORRECT(HttpStatus.BAD_REQUEST, "ON_SALE_TIME_NOT_CORRECT", "on_sale_time数据不正确"),
     EXPIRE_TIME_NOT_CORRECT(HttpStatus.BAD_REQUEST, "EXPIRE_TIME_NOT_CORRECT", "expire_time数据不正确"),
+    SECKILL_GOODS_LOCK_ERROR(HttpStatus.BAD_REQUEST, "SECKILL_GOODS_LOCK_ERROR", "获取秒杀商品失败"),
 
 
     //common
