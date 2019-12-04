@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ob.common.exception.BizException;
 import com.ob.common.exception.ErrorCode;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -14,9 +15,10 @@ import javax.validation.constraints.NotNull;
  * @Date: 2019/12/2 09:28
  * @Description:
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SeckillGoodsDTO {
+public class SeckillGoodsDTO extends InventoryDTO {
 
     /**
      * 商品名称

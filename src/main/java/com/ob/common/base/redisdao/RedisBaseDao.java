@@ -41,6 +41,7 @@ public class RedisBaseDao {
 
     /**
      * 是否存在
+     *
      * @param key
      */
     public boolean hasKey(String key) {
@@ -49,6 +50,7 @@ public class RedisBaseDao {
 
     /**
      * 是否存在
+     *
      * @param key
      * @param hashKey
      */
@@ -58,6 +60,7 @@ public class RedisBaseDao {
 
     /**
      * 获取超时时间
+     *
      * @param key
      * @param unit
      * @return:
@@ -68,6 +71,7 @@ public class RedisBaseDao {
 
     /**
      * 所有keys
+     *
      * @author
      */
     public Set<String> keys(String pattern) {
@@ -76,6 +80,7 @@ public class RedisBaseDao {
 
     /**
      * 删除keys
+     *
      * @author
      */
     public void delete(Set<String> keys) {
@@ -84,6 +89,7 @@ public class RedisBaseDao {
 
     /**
      * 删除key
+     *
      * @author
      */
     public void delete(String key) {
@@ -135,18 +141,29 @@ public class RedisBaseDao {
      * @param key
      * @param value
      */
-    public void addValue(String key, Object value){
+    public void addValue(String key, Object value) {
         valueOperations.set(key, value);
     }
 
-     /**
+    /**
      * 获取value
-      *
+     *
      * @param key
      * @return
      */
-    public Object getValue(String key){
+    public Object getValue(String key) {
         return valueOperations.get(key);
+    }
+
+    /**
+     * 自增value值
+     *
+     * @param key
+     * @param delta
+     * @return
+     */
+    public Long incValue(String key, long delta) {
+        return valueOperations.increment(key, delta);
     }
 
     //---------------------------------------------------------------------
@@ -155,6 +172,7 @@ public class RedisBaseDao {
 
     /**
      * 添加单个数据
+     *
      * @param key
      * @param hashKey
      * @param value
@@ -165,6 +183,7 @@ public class RedisBaseDao {
 
     /**
      * 添加单个数据
+     *
      * @param key
      * @param m
      */
@@ -174,19 +193,21 @@ public class RedisBaseDao {
 
     /**
      * 移除数据
+     *
      * @param key
      */
     public void removeKey(String key) {
         Map<String, Object> hash = hashOperations.entries(key);
         String[] s = new String[hash.size()];
         hash.keySet().toArray(s);
-        if(s.length > 0){
+        if (s.length > 0) {
             hashOperations.delete(key, s);
         }
     }
 
     /**
      * 自增hash值
+     *
      * @param hashKey
      * @param delta
      */
@@ -196,6 +217,7 @@ public class RedisBaseDao {
 
     /**
      * 删除单个数据
+     *
      * @param key
      * @param hashKey
      */
@@ -205,6 +227,7 @@ public class RedisBaseDao {
 
     /**
      * 删除多个数据
+     *
      * @param key
      * @param hashKeys
      */
@@ -214,6 +237,7 @@ public class RedisBaseDao {
 
     /**
      * 获取单个数据
+     *
      * @param key
      * @param hashKey
      */
@@ -224,8 +248,9 @@ public class RedisBaseDao {
 
     /**
      * 批量获取hash的所有value值
-     * @author
+     *
      * @param key Param-key
+     * @author
      */
     public List<Object> getHashAllValue(String key) {
         List<Object> values = hashOperations.values(key);
@@ -234,14 +259,16 @@ public class RedisBaseDao {
 
     /**
      * 批量获取hkey
+     *
      * @param key
      */
-    public Set<String> getHKeys(String key){
+    public Set<String> getHKeys(String key) {
         return hashOperations.keys(key);
     }
 
     /**
      * 批量获取 数据
+     *
      * @param key
      * @param hashKeys
      */
@@ -253,8 +280,8 @@ public class RedisBaseDao {
     /**
      * 获取hash数量
      *
-     * @author
      * @param key
+     * @author
      */
     public Long getHashCount(String key) {
         return hashOperations.size(key);
@@ -272,7 +299,7 @@ public class RedisBaseDao {
      * @param member
      * @return
      */
-    public Long addSetValue(String key, String member){
+    public Long addSetValue(String key, String member) {
         return setOperations.add(key, member);
     }
 
@@ -283,7 +310,7 @@ public class RedisBaseDao {
      * @param member
      * @return
      */
-    public boolean isSetMember(String key, String member){
+    public boolean isSetMember(String key, String member) {
         return setOperations.isMember(key, member);
     }
 
@@ -293,7 +320,7 @@ public class RedisBaseDao {
      * @param key
      * @return
      */
-    public Long getSetSize(String key){
+    public Long getSetSize(String key) {
         return setOperations.size(key);
     }
 
@@ -302,7 +329,7 @@ public class RedisBaseDao {
      *
      * @param key
      */
-    public Set<Object> getSetMembers(String key){
+    public Set<Object> getSetMembers(String key) {
         return setOperations.members(key);
     }
 
@@ -313,7 +340,7 @@ public class RedisBaseDao {
      * @param member
      * @return
      */
-    public Long deleteSetValue(String key, String member){
+    public Long deleteSetValue(String key, String member) {
         return setOperations.remove(key, member);
     }
 
@@ -454,7 +481,7 @@ public class RedisBaseDao {
      * @param member
      * @param score
      */
-    public boolean addZSetValue(String key, String member, long score){
+    public boolean addZSetValue(String key, String member, long score) {
         return zsetOperations.add(key, member, score);
     }
 
@@ -465,7 +492,7 @@ public class RedisBaseDao {
      * @param member
      * @param score
      */
-    public boolean addZSetValue(String key, String member, double score){
+    public boolean addZSetValue(String key, String member, double score) {
         return zsetOperations.add(key, member, score);
     }
 
@@ -475,7 +502,7 @@ public class RedisBaseDao {
      * @param key
      * @param tuples
      */
-    public long addBatchZSetValue(String key, Set<ZSetOperations.TypedTuple<Object>> tuples){
+    public long addBatchZSetValue(String key, Set<ZSetOperations.TypedTuple<Object>> tuples) {
         return zsetOperations.add(key, tuples);
     }
 
@@ -486,7 +513,7 @@ public class RedisBaseDao {
      * @param member
      * @param delta
      */
-    public void incZSetValue(String key, String member, long delta){
+    public void incZSetValue(String key, String member, long delta) {
         zsetOperations.incrementScore(key, member, delta);
     }
 
@@ -496,11 +523,11 @@ public class RedisBaseDao {
      * @param key
      * @param member
      */
-    public long getZSetScore(String key, String member){
+    public long getZSetScore(String key, String member) {
         Double score = zsetOperations.score(key, member);
-        if(score==null){
+        if (score == null) {
             return 0;
-        }else{
+        } else {
             return score.longValue();
         }
     }
@@ -511,11 +538,11 @@ public class RedisBaseDao {
      * @param key
      * @param member
      */
-    public double getZSetScore4Double(String key, String member){
+    public double getZSetScore4Double(String key, String member) {
         Double score = zsetOperations.score(key, member);
-        if(score==null){
+        if (score == null) {
             return 0;
-        }else{
+        } else {
             return score;
         }
     }
@@ -526,7 +553,7 @@ public class RedisBaseDao {
      * @param key
      * @param member
      */
-    public long deleteZSetValue(String key, String member){
+    public long deleteZSetValue(String key, String member) {
         return zsetOperations.remove(key, member);
     }
 
@@ -537,7 +564,7 @@ public class RedisBaseDao {
      * @param start
      * @param end
      */
-    public Set<ZSetOperations.TypedTuple<Object>> getZSetRank(String key, long start, long end){
+    public Set<ZSetOperations.TypedTuple<Object>> getZSetRank(String key, long start, long end) {
         return zsetOperations.rangeWithScores(key, start, end);
     }
 
@@ -548,7 +575,7 @@ public class RedisBaseDao {
      * @param start
      * @param end
      */
-    public Set<ZSetOperations.TypedTuple<Object>> getZSetRevRank(String key, long start, long end){
+    public Set<ZSetOperations.TypedTuple<Object>> getZSetRevRank(String key, long start, long end) {
         return zsetOperations.reverseRangeWithScores(key, start, end);
     }
 
@@ -557,7 +584,7 @@ public class RedisBaseDao {
      *
      * @param key
      */
-    public long getZSetCount(String key){
+    public long getZSetCount(String key) {
         return zsetOperations.size(key);
     }
 

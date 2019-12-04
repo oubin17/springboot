@@ -7,12 +7,16 @@ import com.ob.modelexample.redis.service.RedisLock;
 import com.ob.work.seckill.dto.SeckillGoodsReqDTO;
 import com.ob.work.seckill.dto.SeckillGoodsResDTO;
 import com.ob.work.seckill.entities.SeckillGoods;
-import com.ob.work.seckill.mqconfig.SeckillGoodsRebuildMq;
+import com.ob.work.seckill.entities.SeckillGoodsInventory;
+import com.ob.work.seckill.mqconfig.goods.SeckillGoodsRebuildMq;
+import com.ob.work.seckill.redisdao.SeckillGoodsInventoryRedisDao;
 import com.ob.work.seckill.redisdao.SeckillGoodsRedisDao;
+import com.ob.work.seckill.repository.SeckillGoodsInventoryRepository;
 import com.ob.work.seckill.repository.SeckillGoodsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -32,7 +36,13 @@ public class SeckillGoodsService {
     private SeckillGoodsRepository goodsRepository;
 
     @Autowired
+    private SeckillGoodsInventoryRepository inventoryRepository;
+
+    @Autowired
     private SeckillGoodsRedisDao goodsRedisDao;
+
+    @Autowired
+    private SeckillGoodsInventoryRedisDao inventoryRedisDao;
 
     @Autowired
     private RedisLock redisLock;
@@ -41,17 +51,26 @@ public class SeckillGoodsService {
     private RabbitProducer rabbitProducer;
 
     /**
-     * 新增热点商品
+     * 新增热点商品,并添加商品库存，商品库存缓存
      *
      * @param goodsReqDTO
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     public SeckillGoodsResDTO addSeckillGoods(SeckillGoodsReqDTO goodsReqDTO) {
         SeckillGoods seckillGoods = goodsReqDTO.seckillGoodsConverter();
         seckillGoods.setOnSaleTime(System.currentTimeMillis());
         seckillGoods.setExpireTime(LocalDateTime.now().plusDays(1).toInstant(ZoneOffset.of("+8")).toEpochMilli());
         goodsRepository.save(seckillGoods);
-        cacheWarmUp(seckillGoods);
+        seckillGoodsCacheWarmUp(seckillGoods);
+
+        //库存预加载
+        SeckillGoodsInventory inventory = new SeckillGoodsInventory();
+        inventory.setGoodsId(seckillGoods.getId());
+        inventory.setRemainingQuantity(goodsReqDTO.getRemainingQuantity());
+        inventoryRepository.save(inventory);
+        seckillGoodsInventoryCacheWarmUp(inventory, seckillGoods.getExpireTime() - System.currentTimeMillis());
+
         return seckillGoods.convertToSeckillGoodsResDTO();
     }
 
@@ -80,7 +99,7 @@ public class SeckillGoodsService {
                         goodsRedisDao.saveValueDefaultExpireTime(id, defaultGoods);
                         return null;
                     } else {
-                        cacheWarmUp(seckillGoods);
+                        seckillGoodsCacheWarmUp(seckillGoods);
                         return seckillGoods.convertToSeckillGoodsResDTO();
                     }
                 } else {
@@ -122,15 +141,27 @@ public class SeckillGoodsService {
     }
 
     /**
-     * 缓存预热
+     * 商品缓存预热
      *
      * @param goods
      */
     @SuppressWarnings("unchecked")
-    private void cacheWarmUp(SeckillGoods goods) {
+    private void seckillGoodsCacheWarmUp(SeckillGoods goods) {
         long expireTime = goods.getExpireTime() - System.currentTimeMillis();
         goodsRedisDao.saveValueExpireTime(goods.getId(), goods, expireTime, TimeUnit.MILLISECONDS);
     }
+
+    /**
+     * 商品库存缓存预热
+     *
+     * @param inventory
+     * @param expireTime
+     */
+    private void seckillGoodsInventoryCacheWarmUp(SeckillGoodsInventory inventory, Long expireTime) {
+        inventoryRedisDao.saveValueExpireTime(inventory.getGoodsId(), inventory.getRemainingQuantity(), expireTime, TimeUnit.MILLISECONDS);
+    }
+
+
 
 
 }

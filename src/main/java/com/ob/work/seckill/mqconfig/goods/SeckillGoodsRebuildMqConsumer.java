@@ -1,4 +1,4 @@
-package com.ob.work.seckill.mqconfig;
+package com.ob.work.seckill.mqconfig.goods;
 
 import com.ob.work.seckill.entities.SeckillGoods;
 import com.ob.work.seckill.redisdao.SeckillGoodsRedisDao;

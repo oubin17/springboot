@@ -27,7 +27,7 @@ public class SeckillGoodsRedisDao {
     /**
      * key类型
      */
-    private static final String VALUE_KEY = "good_id_value";
+    private static final String VALUE_KEY = "goods_id_value";
 
     /**
      * key锁

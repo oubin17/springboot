@@ -1,4 +1,4 @@
-package com.ob.work.seckill.mqconfig;
+package com.ob.work.seckill.mqconfig.goods;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
