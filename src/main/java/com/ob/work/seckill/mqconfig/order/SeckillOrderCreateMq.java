@@ -1,19 +1,16 @@
 package com.ob.work.seckill.mqconfig.order;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * @Author: oubin
  * @Date: 2019/12/4 15:36
- * @Description: direct交换机
+ * @Description: direct 预创建订单之后将创建订单的任务发送到mq，消费者收到消息创建订单
  */
 @Configuration
-public class SeckillGoodsOrderCreateMq {
+public class SeckillOrderCreateMq {
 
     /**
      * 创建订单队列交换机
@@ -51,8 +48,8 @@ public class SeckillGoodsOrderCreateMq {
      * @return
      */
     @Bean
-    public TopicExchange seckillOrderCreateExchange() {
-        return new TopicExchange(SECKILL_ORDER_CREATE_DIRECT_EXCHANGE);
+    public DirectExchange seckillOrderCreateExchange() {
+        return new DirectExchange(SECKILL_ORDER_CREATE_DIRECT_EXCHANGE);
     }
 
     /**
@@ -63,7 +60,7 @@ public class SeckillGoodsOrderCreateMq {
      * @return
      */
     @Bean
-    public Binding seckillGoodsRebuildBinding(Queue seckillOrderCreateQueue, TopicExchange seckillOrderCreateExchange) {
+    public Binding seckillOrderCreateBinding(Queue seckillOrderCreateQueue, DirectExchange seckillOrderCreateExchange) {
         return BindingBuilder.bind(seckillOrderCreateQueue).to(seckillOrderCreateExchange).with(SECKILL_ORDER_CREATE_ROUTING_KEY);
     }
 }

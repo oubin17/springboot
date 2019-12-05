@@ -18,7 +18,12 @@ public enum ErrorCode {
 
     //common
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "无效请求"),
-    DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, "DATA_NOT_FOUND", "数据不存在");
+    DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, "DATA_NOT_FOUND", "数据不存在"),
+
+    //time
+    TIME_STAMP_NOT_NULL(HttpStatus.BAD_REQUEST, "TIME_STAMP_NOT_NULL", "时间戳不为空")
+
+    ;
 
     private HttpStatus httpStatus;
 

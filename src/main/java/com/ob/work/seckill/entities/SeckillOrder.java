@@ -5,6 +5,7 @@ import com.ob.common.base.domain.BaseStateDomain;
 import com.ob.common.base.domain.IdStrategy;
 import com.ob.common.convert.BeanConvert;
 import com.ob.work.seckill.dto.SeckillOrderResDTO;
+import com.ob.work.seckill.dto.mq.SeckillOrderMQDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
@@ -45,6 +46,14 @@ public class SeckillOrder extends BaseStateDomain<String> {
         return converter.convert(this);
     }
 
+    public SeckillOrderMQDTO convertToSeckillOrderMQDTO() {
+        SeckillOrderMQDTOConverter mqdtoConverter = new SeckillOrderMQDTOConverter();
+        return mqdtoConverter.convert(this);
+    }
+
+    /**
+     * 转成order返回对象
+     */
     private static class SeckillOrderResDTOConverter implements BeanConvert<SeckillOrder, SeckillOrderResDTO> {
         @Override
         public SeckillOrderResDTO convert(SeckillOrder seckillOrder) {
@@ -53,6 +62,21 @@ public class SeckillOrder extends BaseStateDomain<String> {
             resDTO.setId(seckillOrder.getId());
             resDTO.setState(seckillOrder.getState());
             return resDTO;
+        }
+    }
+
+    /**
+     * 转成mq对象
+     */
+    private static class SeckillOrderMQDTOConverter implements BeanConvert<SeckillOrder, SeckillOrderMQDTO> {
+
+        @Override
+        public SeckillOrderMQDTO convert(SeckillOrder seckillOrder) {
+            SeckillOrderMQDTO mqdto = new SeckillOrderMQDTO();
+            mqdto.setOrderId(seckillOrder.getId());
+            mqdto.setOrderPreCreateTime(seckillOrder.getCreateAt());
+            mqdto.setOrderState(seckillOrder.getState());
+            return mqdto;
         }
     }
 }

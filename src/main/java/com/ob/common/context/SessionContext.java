@@ -18,8 +18,14 @@ public class SessionContext {
     private static final String AUTHORIZATION = "AUTHORIZATION";
 
     public static String currentUserId() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String authorization = getUserIdFromRequest(request);
+        String authorization = null;
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            authorization = getUserIdFromRequest(request);
+        } catch (Exception e) {
+
+        }
+
         if (null == authorization) {
             return null;
         }

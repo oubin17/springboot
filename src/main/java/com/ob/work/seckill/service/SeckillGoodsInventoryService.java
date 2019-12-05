@@ -26,7 +26,7 @@ public class SeckillGoodsInventoryService {
      * @param goodsId
      * @return
      */
-    public Boolean checkQuantity(String goodsId) {
+    public Boolean decQuantity(String goodsId) {
         Long val = inventoryRedisDao.decValue(goodsId);
         if (null != val && val >= 0) {
             //这里说明成功抢到商品，需要将数据库库存-1

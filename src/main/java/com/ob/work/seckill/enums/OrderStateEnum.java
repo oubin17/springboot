@@ -30,7 +30,18 @@ public enum OrderStateEnum {
     /**
      * 被取消
      */
-    CANCELLED(4);
+    CANCELLED(4),
+
+    /**
+     * 订单超时未创建
+     */
+    CREATE_TIMEOUT(5),
+
+    /**
+     * 订单成功创建
+     */
+    CREATE_SUCCEED(6),
+    ;
 
     private Integer state;
 
