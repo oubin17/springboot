@@ -74,6 +74,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+		<!-- druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+
 		<!-- rabbitmq -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
