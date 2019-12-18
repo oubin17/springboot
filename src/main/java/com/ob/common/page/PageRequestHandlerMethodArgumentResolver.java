@@ -12,9 +12,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * 分页查询参数解析
- *
- * @author Zhang JinLong(150429)
+ * @Author: oubin
+ * @Date: 2019/10/22 16:59
+ * @Description: 分页查询参数解析
  */
 public class PageRequestHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 

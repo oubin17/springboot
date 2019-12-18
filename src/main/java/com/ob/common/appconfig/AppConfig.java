@@ -1,4 +1,4 @@
-package com.ob.common.config;
+package com.ob.common.appconfig;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;

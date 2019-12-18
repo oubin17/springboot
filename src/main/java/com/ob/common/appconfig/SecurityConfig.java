@@ -1,4 +1,4 @@
-package com.ob.common.config;
+package com.ob.common.appconfig;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.core.annotation.Order;

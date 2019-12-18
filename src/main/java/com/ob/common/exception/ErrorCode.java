@@ -21,9 +21,12 @@ public enum ErrorCode {
     DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, "DATA_NOT_FOUND", "数据不存在"),
 
     //time
-    TIME_STAMP_NOT_NULL(HttpStatus.BAD_REQUEST, "TIME_STAMP_NOT_NULL", "时间戳不为空")
+    TIME_STAMP_NOT_NULL(HttpStatus.BAD_REQUEST, "TIME_STAMP_NOT_NULL", "时间戳不为空"),
 
-    ;
+    //interceptor
+    REQUEST_TIME_LIMIT(HttpStatus.BAD_REQUEST, "REQUEST_TIME_LIMIT", "访问次数限制"),
+
+  ;
 
     private HttpStatus httpStatus;
 

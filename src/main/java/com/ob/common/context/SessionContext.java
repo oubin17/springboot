@@ -1,11 +1,9 @@
 package com.ob.common.context;
 
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 /**
  * @Author: oubin
@@ -15,32 +13,46 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class SessionContext {
 
-    private static final String AUTHORIZATION = "AUTHORIZATION";
+    public static final String HTTP_SERVLET_REQUEST = "HTTP_SERVLET_REQUEST";
+    private final static ThreadLocal<HashMap> LOCAL = new ThreadLocal<>();
 
+    public static final String AUTHORIZATION = "AUTHORIZATION";
+    public static final String USER_ID = "USER_ID";
+    public static final String REAL_IP = "REAL_IP";
+
+    /**
+     * 当前用户
+     *
+     * @return
+     */
     public static String currentUserId() {
-        String authorization = null;
-        try {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            authorization = getUserIdFromRequest(request);
-        } catch (Exception e) {
-
-        }
-
-        if (null == authorization) {
-            return null;
-        }
-        try {
-            return authorization.split("=")[1];
-        } catch (Exception e) {
-            log.error("get user error", e);
-            return null;
-        }
+        HashMap hashMap = getLocal();
+        return (String) hashMap.get(USER_ID);
     }
 
-    private static String getUserIdFromRequest(HttpServletRequest request) {
-        if (!StringUtils.isEmpty(request.getHeader(AUTHORIZATION))) {
-            return request.getHeader(AUTHORIZATION);
+    /**
+     * 获取当前用户真实ip地址
+     * @return
+     */
+    public static String realIp() {
+        HashMap hashMap = getLocal();
+        return (String) hashMap.get(REAL_IP);
+    }
+
+    public static HashMap getLocal() {
+        HashMap hashMap = LOCAL.get();
+        if (null == hashMap) {
+            hashMap = Maps.newHashMap();
+            LOCAL.set(hashMap);
         }
-        return null;
+        return hashMap;
+    }
+
+    public static void setLocal(HashMap hashMap) {
+        LOCAL.set(hashMap);
+    }
+
+    public static void put(String key, Object value) {
+        getLocal().put(key, value);
     }
 }
