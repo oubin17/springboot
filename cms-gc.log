@@ -1,0 +1,24 @@
+Java HotSpot(TM) 64-Bit Server VM (25.191-b12) for windows-amd64 JRE (1.8.0_191-b12), built on Oct  6 2018 09:29:03 by "java_re" with MS VC++ 10.0 (VS2010)
+Memory: 4k page, physical 16681304k(8975036k free), swap 33360704k(11239696k free)
+CommandLine flags: -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heap.hprof -XX:InitialHeapSize=31457280 -XX:MaxHeapSize=31457280 -XX:MaxNewSize=10485760 -XX:MaxTenuringThreshold=6 -XX:OldPLABSize=16 -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseConcMarkSweepGC -XX:-UseLargePagesIndividualAllocation -XX:+UseParNewGC 
+2020-07-20T15:23:26.341+0800: 0.304: [GC (Allocation Failure) 2020-07-20T15:23:26.341+0800: 0.305: [ParNew: 8191K->1024K(9216K), 0.1460279 secs] 8191K->4237K(29696K), 0.1461456 secs] [Times: user=0.00 sys=0.00, real=0.15 secs] 
+2020-07-20T15:23:26.492+0800: 0.455: [GC (Allocation Failure) 2020-07-20T15:23:26.492+0800: 0.455: [ParNew: 9216K->1024K(9216K), 0.0116073 secs] 12429K->12158K(29696K), 0.0116823 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+2020-07-20T15:23:26.503+0800: 0.467: [GC (CMS Initial Mark) [1 CMS-initial-mark: 11134K(20480K)] 12320K(29696K), 0.0003589 secs] [Times: user=0.09 sys=0.00, real=0.00 secs] 
+2020-07-20T15:23:26.504+0800: 0.467: [CMS-concurrent-mark-start]
+2020-07-20T15:23:26.506+0800: 0.469: [GC (Allocation Failure) 2020-07-20T15:23:26.506+0800: 0.469: [ParNew: 8278K->1024K(9216K), 0.0117626 secs] 19413K->20465K(29696K), 0.0118194 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+2020-07-20T15:23:26.520+0800: 0.484: [GC (Allocation Failure) 2020-07-20T15:23:26.520+0800: 0.484: [ParNew: 9216K->9216K(9216K), 0.0000145 secs]2020-07-20T15:23:26.520+0800: 0.484: [CMS2020-07-20T15:23:26.534+0800: 0.498: [CMS-concurrent-mark: 0.018/0.030 secs] [Times: user=0.05 sys=0.00, real=0.03 secs] 
+ (concurrent mode failure): 19441K->20480K(20480K), 0.0755609 secs] 28657K->26506K(29696K), [Metaspace: 3367K->3367K(1056768K)], 0.0756427 secs] [Times: user=0.05 sys=0.00, real=0.08 secs] 
+2020-07-20T15:23:26.596+0800: 0.560: [Full GC (Allocation Failure) 2020-07-20T15:23:26.597+0800: 0.560: [CMS: 20480K->20479K(20480K), 0.0577353 secs] 27478K->27257K(29696K), [Metaspace: 3368K->3368K(1056768K)], 0.0577966 secs] [Times: user=0.05 sys=0.02, real=0.06 secs] 
+2020-07-20T15:23:26.654+0800: 0.618: [Full GC (Allocation Failure) 2020-07-20T15:23:26.654+0800: 0.618: [CMS: 20479K->20479K(20480K), 0.0674750 secs] 27257K->27237K(29696K), [Metaspace: 3368K->3368K(1056768K)], 0.0675352 secs] [Times: user=0.08 sys=0.00, real=0.07 secs] 
+2020-07-20T15:23:26.723+0800: 0.686: [GC (CMS Initial Mark) [1 CMS-initial-mark: 20479K(20480K)] 27349K(29696K), 0.0089069 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+2020-07-20T15:23:26.732+0800: 0.695: [CMS-concurrent-mark-start]
+Heap
+ par new generation   total 9216K, used 7197K2020-07-20T15:23:26.734+0800:  [0x00000000fe200000, 0x00000000fec00000, 0x00000000fec00000)
+  eden space 8192K,  87% used [0x00000000fe200000, 0x00000000fe907780, 0x00000000fea00000)
+  from0.697:  space 1024K,   0% used [0x00000000feb00000, 0x00000000feb00000, 0x00000000fec00000)
+  to   space 1024K,   0% used [0x00000000fea00000, 0x00000000fea00000, 0x00000000feb00000)
+ concurrent mark-sweep generation[CMS-concurrent-mark: 0.002/0.002 secs] total 20480K, used 20479K [0x00000000fec00000, 0x0000000100000000, 0x0000000100000000)
+ Metaspace       used 3404K, capacity 4664K, committed 4864K, reserved 1056768K
+  class space    used 358K, capacity 424K, committed 512K, reserved 1048576K
+ [Times: user=0.00 sys=0.00, real=0.00 secs] 
+2020-07-20T15:23:26.734+0800: 0.697: [CMS-concurrent-preclean-start]
