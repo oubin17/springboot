@@ -104,7 +104,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         template.setHashValueSerializer(genericJackson2JsonRedisSerializer);
 
         //设置支持事务
-        template.setEnableTransactionSupport(true);
+//        template.setEnableTransactionSupport(true);
 
         template.afterPropertiesSet();
         return template;

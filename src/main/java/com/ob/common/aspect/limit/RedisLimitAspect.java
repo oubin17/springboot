@@ -1,4 +1,4 @@
-package com.ob.common.aspect;
+package com.ob.common.aspect.limit;
 
 import com.google.common.collect.Lists;
 import com.ob.common.context.SessionContext;
@@ -32,7 +32,7 @@ public class RedisLimitAspect {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Pointcut("@annotation(com.ob.common.aspect.Limit)")
+    @Pointcut("@annotation(com.ob.common.aspect.limit.Limit)")
     public void pointcut() {
 
     }

@@ -1,13 +1,14 @@
 package com.ob.work.trade.service;
 
+import com.ob.common.aspect.datacompensation.DataCompensation;
 import com.ob.common.base.service.CustomService;
 import com.ob.common.config.rabbitmq.RabbitProducer;
 import com.ob.common.exception.BizException;
 import com.ob.common.exception.ErrorCode;
 import com.ob.modelexample.redis.service.RedisLock;
 import com.ob.work.trade.constant.Constants;
-import com.ob.work.trade.entity.Goods;
 import com.ob.work.trade.dto.GoodsUpdateDto;
+import com.ob.work.trade.entity.Goods;
 import com.ob.work.trade.enums.GoodsStateEnum;
 import com.ob.work.trade.messagequeue.GoodsMqConfig;
 import com.ob.work.trade.repository.GoodsRepository;
@@ -170,6 +171,12 @@ public class GoodsService extends CustomService<Goods, String> {
     private void cacheWarmUp(Goods goods) {
         long expireTime = goods.getExpireTime() - System.currentTimeMillis();
         valueOperations.set(Constants.GOODS_ID_KEY + goods.getId(), goods.getRemainingQuantity(), expireTime, TimeUnit.MILLISECONDS);
+    }
+
+    @DataCompensation
+    @Transactional(rollbackFor = Exception.class)
+    public void descDbValue(String key) {
+        goodsRepository.createOrder(key);
     }
 
 

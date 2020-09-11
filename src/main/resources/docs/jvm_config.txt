@@ -1,0 +1,10 @@
+-XX:InitialHeapSize=500M
+-XX:MaxHeapSize=50M
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:HeapDumpPath=heap.hprof
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps
+-XX:+PrintGCDateStamps
+-Xloggc:parallelgc.log
+-XX:+UseG1GC
+-Xloggc:g1-gc.log

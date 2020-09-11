@@ -1,7 +1,7 @@
 package com.ob.work.seckill.controller;
 
-import com.ob.common.aspect.Limit;
-import com.ob.common.aspect.LimitType;
+import com.ob.common.aspect.limit.Limit;
+import com.ob.common.aspect.limit.LimitType;
 import com.ob.common.constant.Constants;
 import com.ob.work.seckill.dto.SeckillOrderResDTO;
 import com.ob.work.seckill.service.SeckillOrderService;
