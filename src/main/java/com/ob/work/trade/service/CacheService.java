@@ -1,5 +1,6 @@
 package com.ob.work.trade.service;
 
+import com.ob.common.aspect.redisexception.RedisConnectionException;
 import com.ob.work.trade.repository.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -35,12 +36,24 @@ public class CacheService {
         }
     }
 
-    public void listValue(String key) {
+    /**
+     * 有可能存在redis服务不可用，连接异常的问题，有两个解决方案：
+     * 1）基于数据库的乐观锁
+     * 2）基于分布式系统的分布式锁
+     * @param key
+     */
+    @RedisConnectionException
+    public int listValue(String key) {
         Object o = redisTemplate.opsForList().rightPop(key);
         if (o != null) {
-            goodsService.descDbValue(key);
+            return goodsService.descDbValue(key);
         }
+        return -1;
     }
+
+
+
+
 
     @Transactional(rollbackFor = Exception.class)
     public void descValue(String key) {

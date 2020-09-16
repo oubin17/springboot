@@ -175,8 +175,8 @@ public class GoodsService extends CustomService<Goods, String> {
 
     @DataCompensation
     @Transactional(rollbackFor = Exception.class)
-    public void descDbValue(String key) {
-        goodsRepository.createOrder(key);
+    public int descDbValue(String key) {
+        return goodsRepository.createOrder(key);
     }
 
 

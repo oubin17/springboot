@@ -14,5 +14,7 @@ public class FutureTest {
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
+        System.out.println((int)'a');
+
     }
 }
