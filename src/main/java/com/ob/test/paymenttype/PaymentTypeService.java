@@ -40,9 +40,6 @@ public class PaymentTypeService {
                 e.printStackTrace();
             }
         }
-        for (String type : enablePayType) {
-            System.out.println(Thread.currentThread().getName() + " " + type);
-        }
         return enablePayType;
     }
 }

@@ -31,6 +31,5 @@ public class ThreadPoolConfig {
                 new ArrayBlockingQueue<>(10),
                 paymentThreadFactory,
                 new ThreadPoolExecutor.CallerRunsPolicy());
-//                new ThreadPoolExecutor.AbortPolicy());
     }
 }
