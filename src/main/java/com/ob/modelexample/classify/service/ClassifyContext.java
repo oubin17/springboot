@@ -30,7 +30,7 @@ public class ClassifyContext implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
     static {
-        Set<Class<?>> classSet = new Reflections("com.ob.test.classify").getTypesAnnotatedWith(ClassifyName.class);
+        Set<Class<?>> classSet = new Reflections("com.ob.other.classify").getTypesAnnotatedWith(ClassifyName.class);
         for (Class c : classSet) {
             if (!c.isAssignableFrom(BaseClassify.class)) {
                 classifies.put(((ClassifyName) c.getAnnotation(ClassifyName.class)).name(), c);

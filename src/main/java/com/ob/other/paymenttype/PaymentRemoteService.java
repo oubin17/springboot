@@ -1,4 +1,4 @@
-package com.ob.test.paymenttype;
+package com.ob.other.paymenttype;
 
 /**
  * @Author: oubin

@@ -1,4 +1,4 @@
-package com.ob.test.paymenttype;
+package com.ob.other.paymenttype;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.context.annotation.Bean;

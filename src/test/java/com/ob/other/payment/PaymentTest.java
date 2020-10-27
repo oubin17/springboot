@@ -1,7 +1,7 @@
 package com.ob.other.payment;
 
 import com.ob.SpringbootApplication;
-import com.ob.test.paymenttype.PaymentTypeService;
+import com.ob.other.paymenttype.PaymentTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

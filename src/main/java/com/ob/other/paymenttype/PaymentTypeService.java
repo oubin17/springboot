@@ -1,4 +1,4 @@
-package com.ob.test.paymenttype;
+package com.ob.other.paymenttype;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
